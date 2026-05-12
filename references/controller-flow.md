@@ -1,0 +1,215 @@
+# Controller 協調流程
+
+這份文件描述 controller 在複雜重構中的標準決策流。
+
+## 標準節奏
+
+```text
+1. 讀取 spec / contracts / migration-map
+2. 先做 Discovery Triage
+3. 若 triage 顯示複雜度高 -> 派 discovery agent
+4. 更新 shared truth
+5. 交給 dispatcher 產出 batches、task briefs
+6. 選出下一個 migration batch
+7. 判斷：
+   - 低風險且已 bounded -> 直接 implement
+   - 高風險或局部未知數高 -> 先派 recon
+8. 收到 recon report
+9. 更新 contracts / migration-map / task brief（如需要）
+10. 派 implementer
+11. 收到 implementation report
+12. 派 reviewer
+13. reviewer 回報給 controller
+14. controller 判斷：
+   - implementation fix -> 回 implementer
+   - dispatch / recon / contract issue -> 升級處理
+15. 符合 done definition -> 更新 migration-map
+16. 只有 shared truth 更新後，才派下一批
+```
+
+## 階段模型
+
+### Phase 0: Discovery Triage
+
+- 快速估算 affected modules
+- 快速檢查 shared boundary 是否清楚
+- 快速檢查 caller graph 是否明顯
+- 快速檢查 verification 路徑是否明確
+- 快速判斷是否需要多個 implementer
+
+退出條件：
+
+- 已知道是否要進 full discovery
+
+### Phase 1: Discovery
+
+- 盤點模組與子系統
+- 建立 caller cohorts
+- 找 shared boundaries
+- 找 hidden coupling
+- 盤點驗證命令與 baseline
+
+退出條件：
+
+- 主要 dependencies 已知
+- 主要 shared boundaries 已知
+- 可以根據 discovery 結果切 migration batches
+
+### Phase 2: Stabilize
+
+- 補 characterization tests
+- 補 logs/metrics（必要時）
+- 建 adapter / facade / compat shim
+- 確保 rollback path 存在
+
+退出條件：
+
+- 既有行為可觀測
+- 新舊路徑可共存
+
+### Phase 3: Freeze Contracts
+
+- 定義 stable interfaces
+- 定義 shared types
+- 定義 protected zones
+- 定義 migration rules
+
+退出條件：
+
+- implementer 不需要自行重設計 shared boundary
+
+### Phase 4: Dispatch Planning
+
+- 根據 discovery 或 triage 結果切 batches
+- 為每個 batch 寫 task brief
+- 只有必要時才附 supporting excerpts 或 reference
+- 標示 dependency、blocked conditions、verification
+
+退出條件：
+
+- 每個 batch 都有可供 implementer 執行的 bounded packet
+
+### Phase 5: Plan Migration Batches
+
+- 依 caller cohorts 或 bounded modules 切 batch
+- 為每個 batch 定義 write scope
+- 確保 local verification 可獨立執行
+
+退出條件：
+
+- 每個 batch 都有清楚的 owned files、acceptance criteria、verification
+
+### Phase 6: Execute and Review
+
+- 必要時先 recon
+- 再 implement
+- 最後 review
+
+退出條件：
+
+- `migration-map` 已更新
+- 下批次前沒有 stale shared truth
+
+## Done Definition
+
+一個 batch 只有在同時滿足下列條件時，才能標成 `done`：
+
+1. implementation complete
+2. review passed
+3. verification complete
+4. required shared truth updates applied
+5. no unresolved dependency on unconfirmed assumptions
+
+簡化規則：
+
+> `done` 代表這個 batch 已經在 code、review、verification、shared truth 四個層面都完成閉環。
+
+## Next Batch Start Gate
+
+下一批可提前啟動，只有在 controller 能證明下列條件都成立時才行：
+
+1. 前一批的 shared truth 不會改變下一批前提
+2. 下一批 brief 不依賴前一批未確認結果
+3. 兩批 write scope 不衝突
+4. 即使前一批稍後被修正，也不會讓下一批 brief 失效
+
+依賴類型：
+
+- `hard dependency`: 前一批沒 `done`，下一批不能開始
+- `soft dependency`: controller 可在安全前提下條件式提前啟動
+
+不允許提前啟動的情況：
+
+- 前一批仍有 open contract issue
+- 前一批仍在 `blocked`
+- 前一批仍可能觸發 shared truth drift
+
+## Controller 決策規則
+
+### 什麼情況先 recon
+
+- task 仍跨多個模組
+- hidden coupling 可能高
+- protected zones 可能被碰到
+- 驗證路徑不清楚
+- discovery 已標記 `Recon Required: Yes`
+
+### 什麼情況可直接 implement
+
+- contract 已穩定
+- scope 隔離清楚
+- 已有相似 migration slice 完成過
+- 驗證命令明確
+- 不碰 protected zones
+
+### 什麼情況禁止 recon
+
+- 預計只改 1 到 3 個檔案
+- 不碰 shared contract
+- 驗證路徑明確
+- 單一 implementer 可完成
+
+### 什麼情況一定先 discovery
+
+- 跨 3 個以上模組
+- shared boundary 尚未明確
+- caller graph 未知
+- 新舊路徑必須共存
+- 驗證路徑不清楚
+- 預期需要 2 個以上 implementer
+
+### 什麼情況可只做 triage，不做 full discovery
+
+- 影響面疑似小到中等
+- shared boundary 大致清楚
+- caller graph 大致可見
+- 不確定是否真的值得進 full discovery
+
+### 什麼情況停止平行化
+
+- 多個 task 開始想改同一批 core files
+- contract 已不穩定
+- 某一批改變了後續批次的前提
+- `migration-map` 落後現況
+
+### 什麼時候更新 `migration-map`
+
+只在會影響下一步決策的關鍵狀態才更新：
+
+- `planned`
+- `needs_recon`
+- `ready`
+- `blocked`
+- `done`
+
+短暫狀態如 `in_progress`、`in_review` 預設不持久化。
+
+## Controller 不可犯的錯誤
+
+- 讓 implementer 自己定義或更新 contracts
+- full discovery 已足夠還反覆調查同一問題
+- 沒做 discovery 就對大型重構直接切 task
+- 讓 dispatcher 在 contract 未凍結時切出大量平行工作
+- shared boundary 還在變時就平行派工
+- 用 micro-patches 當 migration task
+- 沒先更新 `migration-map` 就進入下一批
