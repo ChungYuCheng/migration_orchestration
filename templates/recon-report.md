@@ -1,33 +1,33 @@
-# Recon Report
+# Recon 報告
 
 > Optional artifact. 預設不落地到 repo，只有在 controller 明確要求保留局部調查 reasoning 時才使用。
 
 ## Task
 
-## Affected Files
+## 受影響檔案
 - 
 
-## Hidden Couplings
+## 隱性耦合
 - 
 
-## Protected Zone Risk
+## 保護區域風險
 - None / Low / Medium / High
 - Details:
 
-## Recommended Smallest Migration Slice
+## 建議的最小 Migration Slice
 - 
 
-## Suggested Verification Commands
+## 建議的驗證命令
 - 
 
-## Contract Sufficiency
+## 契約充足性
 - Sufficient / Insufficient
 - Notes:
 
-## Open Questions
+## 開放問題
 - 
 
-## Recommended Status
+## 建議狀態
 - Safe to implement
 - Needs contract update
 - Blocked

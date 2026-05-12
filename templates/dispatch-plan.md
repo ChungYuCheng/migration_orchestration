@@ -1,14 +1,14 @@
-# Dispatch Plan
+# 派工計畫
 
 > Optional artifact. 預設不落地到 repo，只有在批次切分複雜、需要交接，或 controller 明確要求保留 reasoning 時才使用。
 
-## Source Inputs
+## 輸入來源
 - Spec version:
 - Contracts version:
 - Migration map version:
 - Discovery / Recon reports used:
 
-## Batch Layout
+## 批次布局
 - Batch A:
   - Goal:
   - Owned scope:
@@ -25,17 +25,17 @@
   - Depends on:
   - Verification:
 
-## Parallelization Decision
+## 平行化決策
 - What can run in parallel:
 - What must stay serialized:
 - Why:
 
-## Protected Zones Reminder
+## 保護區域提醒
 - 
 
-## Blocked Conditions
+## 阻塞條件
 - 
 
-## Handoff Artifacts
+## 交接產物
 - Task briefs:
 - Context packets:

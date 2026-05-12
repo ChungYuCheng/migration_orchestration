@@ -3,9 +3,9 @@ name: migration-orchestration
 description: Use when 進行複雜重構或漸進式 migration，且需要多個 agent、凍結共享邊界、分批遷移 callers，或在 context window 有限時維持穩定協調
 ---
 
-# Migration Orchestration
+# Migration Orchestration 重構協調
 
-## 概覽
+## 總覽
 
 這個 skill 用來協調複雜重構，不是用來直接實作某一塊功能。核心原則是：先用最低成本收斂 shared reality，再分批遷移；只有一個 controller 維護 shared truth，其他 agent 一律透過 artifact 協作。
 
@@ -43,9 +43,9 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 3. 補 baseline 與過渡層，讓新舊路徑可共存
 4. 凍結 contracts、shared types、protected zones
 5. 用 `templates/` 建立 `spec`、`contracts`、`migration-map`
-6. 由 dispatcher 根據 triage / discovery 結果切出 migration batches、task briefs、context packets
+6. 由 dispatcher 根據 triage / discovery 結果切出 migration batches、task briefs
 7. 只有高風險 batch 才先派 recon，再 implement
-8. 用 `task-brief` + `context-packet` 派 implementer
+8. 以 `task-brief` 作為 implementer 的主要工作入口
 9. reviewer 驗證 scope、contract、tests
 10. controller 更新 `migration-map` 後才派下一批
 
@@ -57,7 +57,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - Failure 與升級：`references/failure-and-escalation.md`
 - 派工規則：`references/dispatching-rules.md`
 - 平行化規則：`references/parallelization-policy.md`
-- Prompt 用法：`references/prompt-usage.md`
+- Prompts 用法：`references/prompt-usage.md`
 
 ## 必備模板
 

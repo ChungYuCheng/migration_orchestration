@@ -1,9 +1,9 @@
-# Migration Map
+# Migration 地圖
 
-## Legacy -> Target Mapping
+## 舊路徑 -> 目標路徑對應
 - LegacyThing -> NewThing
 
-## Batch Status
+## 批次狀態
 - Batch A:
   - Status: planned
   - Owner:
@@ -29,9 +29,9 @@
   - Last Outcome:
   - Notes:
 
-## Remaining Legacy Dependencies
+## 剩餘 Legacy 相依
 - 
 
-## Cleanup Gates
+## Cleanup 關卡
 - Remove adapters only after all caller batches complete
 - Remove legacy-only code only after all reads and writes have migrated

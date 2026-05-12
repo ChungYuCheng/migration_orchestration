@@ -1,20 +1,20 @@
-# Contracts Brief
+# 契約摘要
 
-## Stable Interfaces
-### Interface:
+## 穩定介面
+### 介面：
 - Responsibility:
 - Methods:
 - Input constraints:
 - Output guarantees:
 - Error semantics:
 
-## Shared Types
-### Type:
+## 共享型別
+### 型別：
 - Fields:
 - Nullability:
 - Backward compatibility notes:
 
-## Protected Zones
+## 保護區域
 - Only controller may modify:
   -
 - Worker must not modify:
@@ -22,7 +22,7 @@
   - shared event names
   - DB schema
 
-## Migration Rules
+## Migration 規則
 - Old and new path must coexist until all callers migrate
 - Do not remove fallback logic in migration tasks
 - Do not rename shared types without explicit migration task

@@ -1,47 +1,47 @@
-# Discovery Report
+# Discovery 報告
 
 > Optional artifact. 預設不落地到 repo，只有在 controller 明確要求保留 discovery reasoning 時才使用。
 
-## Triage Result
+## Triage 結果
 - Full Discovery Required: Yes / No
 - Why:
 
-## Scope Investigated
+## 調查範圍
 - 
 
-## Affected Modules
+## 受影響模組
 - 
 
-## Caller Cohorts
+## Caller 群組
 - 
 
-## Shared Boundaries
+## 共享邊界
 - 
 
-## Hidden Couplings
+## 隱性耦合
 - 
 
-## Protected Zone Candidates
+## 保護區域候選
 - 
 
-## Verification Map
+## 驗證地圖
 - Command:
 - Purpose:
 
-## Migration Split Suggestions
+## Migration 切分建議
 - Batch A:
 - Batch B:
 - Batch C:
 
-## Area Classification
+## 區域分類
 - Area:
   - Risk:
   - Recon Required: Yes / No
 
-## Open Risks
+## 開放風險
 - 
 
-## Recommendation
+## 建議
 - Ready for contract freeze
 - Needs more discovery
 - Too broad, split the project first

@@ -2,7 +2,7 @@
 
 這份文件說明 `prompts/` 目錄中的角色 prompt 要怎麼搭配使用。
 
-## Prompt 列表
+## Prompt 清單
 
 - `controller-prompt.md`
 - `discovery-agent-prompt.md`
@@ -92,8 +92,8 @@
 ### 給 implementer
 
 - `task-brief`
-- `context-packet`
 - `contracts.md` 的必要段落
+- 必要時才附 supporting reference 或 excerpt
 
 ### 給 reviewer
 

@@ -87,7 +87,7 @@
 
 退出條件：
 
-- 每個 batch 都有可供 implementer 執行的 bounded packet
+- 每個 batch 都有可供 implementer 執行的 bounded `task-brief`
 
 ### Phase 5: Plan Migration Batches
 
@@ -110,7 +110,7 @@
 - `migration-map` 已更新
 - 下批次前沒有 stale shared truth
 
-## Done Definition
+## 完成定義（Done Definition）
 
 一個 batch 只有在同時滿足下列條件時，才能標成 `done`：
 
@@ -124,7 +124,7 @@
 
 > `done` 代表這個 batch 已經在 code、review、verification、shared truth 四個層面都完成閉環。
 
-## Next Batch Start Gate
+## 下一批啟動門檻（Next Batch Start Gate）
 
 下一批可提前啟動，只有在 controller 能證明下列條件都成立時才行：
 
