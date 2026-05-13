@@ -27,7 +27,9 @@
 16. 若 task blocked -> 執行 blocked resume protocol
 17. 符合 done definition -> 更新 migration-map
 18. 若 context 可能 compact 或工作要交接 -> 更新 controller-state
-19. 只有 shared truth 更新後，才派下一批
+19. 執行 continuation policy：
+   - 下一批 ready 且無 human gate -> 建立下一個 task brief 並繼續
+   - 有 stop gate -> 回報停止原因與需要的人類決策
 ```
 
 ## 階段模型
@@ -109,6 +111,7 @@
 - 最後 review
 - AndroidEC UI / navigation / user flow 風險，必要時加入 device verification
 - 若 blocked，先產出選項並等待使用者選擇，再回到 resume target
+- batch done 後套用 continuation policy，不要只停在 resume target
 
 退出條件：
 
@@ -117,6 +120,7 @@
 - 若要 compact / resume，`controller-state` 已更新
 - 若曾 blocked，resume target 已明確
 - 若需要 device verification，結果已處理為 pass / fail / skipped decision
+- 若下一批 ready 且無 human gate，已建立下一個 task brief 或繼續執行
 
 ## 完成定義（Done Definition）
 
@@ -146,6 +150,8 @@
 
 - `hard dependency`: 前一批沒 `done`，下一批不能開始
 - `soft dependency`: controller 可在安全前提下條件式提前啟動
+
+若下一批已標記 `ready`，且符合 continuation policy 的 Auto-Continue Gate，controller 應自動續做，不需要等待使用者說「繼續」。
 
 不允許提前啟動的情況：
 

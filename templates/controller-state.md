@@ -45,6 +45,8 @@
 - Do next:
 - Do not do yet:
 - Read before continuing:
+- Auto-continue eligible: Yes / No
+- Stop gate reason:
 
 ## Resume Checklist
 - [ ] Read `spec.md`

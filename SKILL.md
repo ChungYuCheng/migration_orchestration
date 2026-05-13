@@ -39,6 +39,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - `BLOCKED` 後 controller 必須提供有限選項與 resume target，不得用開放題中斷原計畫
 - 中大型重構的使用者回報應附上輕量進度條列；進度條列不是 shared truth，預設不落地
 - AndroidEC UI / navigation / user flow 風險只有必要時才啟用 device verification，且必須先有測試項目清單
+- 完成一個 batch 後，若下一批 ready 且沒有 human gate，controller 應自動續做，不應停在 resume target
 
 ## 快速流程
 
@@ -52,6 +53,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 8. 以 `task-brief` 作為 implementer 的主要工作入口
 9. reviewer 驗證 scope、contract、tests
 10. controller 更新 `migration-map` 後才派下一批
+11. 若下一批 ready 且無 human gate，直接建立下一個 task-brief 並繼續
 
 ## 使用方式
 
@@ -63,6 +65,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - 如果 context 可能 compact 或工作會跨 session，先讀 `references/compaction-resilience.md`
 - 如果 implementer 回報 `BLOCKED`，先讀 `references/blocked-resume-protocol.md`
 - 如果 AndroidEC task 影響 UI / navigation / user flow，review 前先讀 `references/device-verification-gate.md` 判斷是否需要裝置驗證
+- batch 完成後先讀 `references/continuation-policy.md` 判斷是否應自動續做
 - 面向開發者回報進度時，只顯示短條列與目前 batch 狀態，不建立 dashboard 文件
 
 ## 輕量進度回報
@@ -107,6 +110,7 @@ controller 在中大型 migration 的使用者回覆中，應維持簡短進度�
 - Failure 與升級：`references/failure-and-escalation.md`
 - Blocked 後恢復流程：`references/blocked-resume-protocol.md`
 - Device verification 規則：`references/device-verification-gate.md`
+- 自動續做規則：`references/continuation-policy.md`
 - 派工規則：`references/dispatching-rules.md`
 - 平行化規則：`references/parallelization-policy.md`
 - Compact / resume 規則：`references/compaction-resilience.md`
@@ -147,3 +151,4 @@ controller 在中大型 migration 的使用者回覆中，應維持簡短進度�
 - `BLOCKED` 後只問使用者「怎麼辦」而沒有提供選項與回復路徑
 - 把輕量進度條列當成正式 shared truth 或額外 dashboard 維護
 - 沒有測試項目清單就啟用 device verification，或讓驗證流程自行修復 / commit
+- 下一批已 ready 且沒有 human gate 時，只留下 resume target 就停止

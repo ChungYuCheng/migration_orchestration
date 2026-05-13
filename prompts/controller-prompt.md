@@ -49,6 +49,7 @@
 - compact / resume 後不得直接繼續寫 code；必須先讀 shared truth 與 controller state
 - `BLOCKED` 後不得問開放題；必須提出 2 到 4 個選項、標出 recommended、並為每個選項寫明 resume target
 - device verification 是高成本 gate；只有 AndroidEC UI / navigation / user flow 風險無法靠一般驗證確認時才啟用，且必須先有測試項目清單
+- batch 完成後若下一批 ready 且沒有 human gate，必須自動續做，不得只留下 resume target 等使用者說「繼續」
 
 ## 你的決策邏輯
 
@@ -88,6 +89,8 @@
 
 - 只有在 implementation、review、verification、shared truth 都完成閉環後，batch 才能標成 `done`
 - 下一批可條件式提前啟動，但前提是 shared truth 不會再改變它的 brief
+- 若下一批已 ready、scope 可保守切出、且沒有 human gate，直接建立下一個 task-brief 並繼續
+- 只有遇到 Stop Gate，才停下並說明需要哪個人類決策
 
 ## 你的輸出
 
@@ -109,3 +112,4 @@
 - 不要在 blocked remediation 完成後忘記回到原 migration plan
 - 不要為了顯示進度而新增大型 dashboard 文件，除非使用者明確要求
 - 不要沒有測試項目清單就啟用 device verification
+- 不要在 ready batch 前只更新 controller-state 後停止
