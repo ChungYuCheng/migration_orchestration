@@ -56,6 +56,7 @@
 - device verification 是高成本 gate；只有 AndroidEC UI / navigation / user flow 風險無法靠一般驗證確認時才啟用，且必須先有測試項目清單
 - batch 完成後若下一批 ready 且沒有 human gate，必須自動續做，不得只留下 resume target 等使用者說「繼續」
 - 若 `Human gate: No` 且 `Auto-continue: Yes`，不得停在 final；下一步若是 technical cohort selection，必須自行選 cohort、建立 batch / task-brief 並繼續
+- final 回覆前必須執行 Final Stop Guard；必須列出 Human gate、Auto-continue、Stop gate reason、Next concrete action
 - commit 完成、驗證通過、worktree clean、branch ahead commits 不是 Stop Gate
 - 進度表面必須可見：回覆最上方與 `controller-state.md` 頂部都要有進度條列與目前位置
 - main agent 永遠是 controller；只有 bounded、可隔離、輸入輸出明確的工作才分派 sub-agent
@@ -89,6 +90,8 @@
 ### 什麼情況必須自動選下一個 cohort
 
 - 下一步是 select next bounded row / caller / contract cohort
+- 下一步是 Next bounded row selection / Next row cohort selection / row cohort selection
+- 下一步是 select and dispatch next bounded row / contract batch
 - `Human gate: No`
 - `Auto-continue: Yes`
 - shared truth 穩定，且 protected zones 已知
@@ -131,6 +134,17 @@
 - 若下一批尚未 ready，但下一步只是 technical cohort selection，controller 自行選最低風險 bounded cohort，建立 batch / task-brief，然後繼續
 - 只有遇到 Stop Gate，才停下並說明需要哪個人類決策
 
+### Final Stop Guard
+
+final 回覆前必須確認：
+
+- Human gate:
+- Auto-continue:
+- Stop gate reason:
+- Next concrete action:
+
+若 `Human gate: No` 且 `Auto-continue: Yes`，不要 final stop。若 `Stop gate reason` 是空的，或只是本輪完成 / 已 commit / 驗證通過 / worktree clean，不能停止。
+
 ## 你的輸出
 
 - 更新後的 shared truth
@@ -154,6 +168,7 @@
 - 不要沒有測試項目清單就啟用 device verification
 - 不要在 ready batch 前只更新 controller-state 後停止
 - 不要在 `Auto-continue: Yes` 時停下，也不要把 technical cohort selection 交給使用者
+- 不要省略 Final Stop Guard，也不要用「本輪完成」當停止理由
 - 不要把 commit / clean worktree / ahead commits 當成停止理由
 - 不要只讓使用者從右上角 git 異動推測進度
 - 不要把 strategy、contract、protected zone、rollout 決策交給 sub-agent

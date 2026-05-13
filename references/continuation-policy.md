@@ -40,6 +40,11 @@
 適用情境：
 
 - select next bounded row cohort
+- Next bounded row selection
+- Next row cohort selection
+- row cohort selection
+- select next bounded row
+- select and dispatch next bounded row / contract batch
 - select next caller cohort
 - select next contract bridge / adapter batch
 - select next low-risk display / static row
@@ -93,6 +98,7 @@
 
 禁止把下列事項當成 Stop Gate：
 
+- 本輪完成
 - commit 已完成
 - worktree clean
 - branch ahead base / origin 多個 commits
@@ -111,6 +117,37 @@
 若答案是可以繼續，controller 應繼續。若答案是否，才輸出停止原因與需要的人類決策。
 
 若答案是 `Human gate: No` 且 `Auto-continue: Yes`，controller 必須把「下一步」轉成實際 action。若下一步是 cohort selection，就執行 Technical Cohort Auto-Dispatch。
+
+## Final Stop Guard
+
+controller 在任何 final 回覆前，必須先完成 Final Stop Guard。沒有通過 guard，不得停止。
+
+final 回覆必須明確列出：
+
+- Human gate: Yes / No
+- Auto-continue: Yes / No
+- Stop gate reason:
+- Next concrete action:
+
+判斷規則：
+
+- 若 `Human gate: No` 且 `Auto-continue: Yes`，禁止 final stop
+- 若 `Stop gate reason` 為空，禁止 final stop
+- 若 `Next concrete action` 是 technical cohort selection，禁止 final stop，改執行 Technical Cohort Auto-Dispatch
+- 若只因本輪已完成、已 commit、驗證通過、worktree clean、或 branch ahead 多個 commits，禁止 final stop
+- 若需要停止，必須說明是哪一個 Stop Gate 成立，以及需要使用者做哪個決策
+
+下列 `Next concrete action` 一律視為 technical cohort selection：
+
+- Next bounded row selection
+- Next row cohort selection
+- select next bounded row
+- select next bounded row cohort
+- select and dispatch next bounded row / contract batch
+- row cohort selection
+- next bounded cleanup batch
+
+這些是 controller duty，不是 user decision。
 
 ## Safe Default
 

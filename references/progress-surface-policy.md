@@ -49,6 +49,7 @@ controller 必須在兩個地方顯示輕量進度：
 - 下一步:
 - Human gate: Yes / No
 - Auto-continue: Yes / No
+- Stop gate reason:
 ```
 
 若需要批次表，只保留三欄：

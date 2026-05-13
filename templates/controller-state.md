@@ -17,6 +17,7 @@
 - 下一步:
 - Human gate: Yes / No
 - Auto-continue: Yes / No
+- Stop gate reason:
 
 ## 批次狀態
 | Batch | 狀態 | 下一步 |
@@ -75,6 +76,7 @@
 - Selected next cohort:
 - Next batch id:
 - Stop gate reason:
+- Final stop guard passed: Yes / No
 
 ## Clear Handoff
 - Clear handoff recommended: Yes / No

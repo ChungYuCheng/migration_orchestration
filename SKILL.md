@@ -42,6 +42,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - AndroidEC UI / navigation / user flow 風險只有必要時才啟用 device verification，且必須先有測試項目清單
 - 完成一個 batch 後，若下一批 ready 且沒有 human gate，controller 應自動續做，不應停在 resume target
 - 若下一步只是 technical cohort selection / dispatch planning，且 `Human gate: No`、`Auto-continue: Yes`，controller 必須自行選下一個 bounded cohort 並建立 task-brief，不得停下等使用者
+- final 回覆前必須執行 Final Stop Guard；沒有明確 Stop Gate reason 時不得停止
 - 每次 controller 停下或交接時，回覆最上方與 `controller-state.md` 頂部都要顯示輕量進度
 - main agent 永遠是 controller；sub-agent 只處理 bounded 且可隔離的工作，不能更新 shared truth
 - 多次 compact 後若上下文開始污染決策，先補 shared truth，再用 Clear Handoff Gate 判斷是否建議 clear / 新 session
@@ -72,6 +73,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - 如果 implementer 回報 `BLOCKED`，先讀 `references/blocked-resume-protocol.md` 分類 technical / human blocked
 - 如果 AndroidEC task 影響 UI / navigation / user flow，review 前先讀 `references/device-verification-gate.md` 判斷是否需要裝置驗證
 - batch 完成後先讀 `references/continuation-policy.md` 判斷是否應自動續做
+- final 回覆前先讀 `references/continuation-policy.md` 的 Final Stop Guard，確認是否真的可以停止
 - controller 停下、commit、blocked、compact 或續做下一批前，先讀 `references/progress-surface-policy.md` 更新進度表面
 - 分派 sub-agent 前，先讀 `references/subagent-dispatch-policy.md` 確認 task 是否 bounded 且可隔離
 - 經歷多次 compact 且出現 decision drift / 上下文污染時，先讀 `references/clear-handoff-policy.md`，只有 gate 通過才建議 clear
@@ -166,6 +168,7 @@ controller 在中大型 migration 的使用者回覆中，應維持簡短進度�
 - 沒有測試項目清單就啟用 device verification，或讓驗證流程自行修復 / commit
 - 下一批已 ready 且沒有 human gate 時，只留下 resume target 就停止
 - `Auto-continue: Yes` 時仍輸出 final 停止回覆，或把 technical cohort selection 當成使用者決策
+- final 回覆沒有列出 `Human gate`、`Auto-continue`、`Stop gate reason`，或用「本輪完成」當作停止理由
 - commit 完成、worktree clean、ahead commits 增加都不是停止理由；只有 Stop Gate 才能停止
 - 只更新 git / 對話產出，沒有在回覆與 `controller-state.md` 顯示目前進度
 - 讓 sub-agent 修改 `spec`、`contracts`、`migration-map`、`controller-state` 或自行改變任務目標
