@@ -69,6 +69,17 @@
 - controller-state
 - blocked escalation
 
+## 輕量進度顯示
+
+controller 可以在使用者回覆中顯示簡短「進度條列」與「批次狀態」，讓開發者知道目前做到哪裡。
+
+規則：
+
+- 預設只顯示在回覆中，不建立新文件
+- 進度條列不是 shared truth
+- 不取代 `migration-map.md`
+- 只有使用者要求保存、context 可能 compact、或跨 session 時，才把必要進度摘要寫入 `controller-state.md`
+
 ## 餵 prompt 時應附帶的材料
 
 ### 給 controller

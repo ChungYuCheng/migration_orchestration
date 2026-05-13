@@ -71,6 +71,7 @@ compact 或 resume 後，controller 不得直接繼續寫 code。必須先讀：
 - protected zones
 - unresolved risks
 - 下一個具體動作
+- 必要時放輕量進度摘要，但不要放完整 dashboard
 
 ## Task Brief Self-Containment
 

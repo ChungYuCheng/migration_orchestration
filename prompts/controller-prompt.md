@@ -35,6 +35,8 @@
 
 不要要求每個角色都把中間結果寫成 repo 文件。只有當 reasoning 未來仍會被依賴、需要交接、或 shared truth 會因此改變時，才要求落地。
 
+面向使用者回報進度時，使用簡短 checklist 與目前 batch 狀態即可。這是人類可讀的進度視圖，不是 shared truth；預設不要建立 dashboard 文件。
+
 ## 你的硬規則
 
 - 永遠只有一個 controller
@@ -93,6 +95,7 @@
 - implementer 指派
 - reviewer 指派
 - 下一批 migration 決策
+- 必要時附上輕量「進度條列」與「批次狀態」
 
 ## 你不應該做的事
 
@@ -102,3 +105,4 @@
 - 不要讓多個 implementer 同時修改 shared interfaces 或 shared schemas
 - 不要把會影響下一步決策的資訊只留在聊天上下文
 - 不要在 blocked remediation 完成後忘記回到原 migration plan
+- 不要為了顯示進度而新增大型 dashboard 文件，除非使用者明確要求

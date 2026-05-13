@@ -37,6 +37,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - worker 若需要碰 protected zone，必須回報 `BLOCKED`
 - 會影響下一步決策的資訊必須寫入 shared truth 或 controller state，不得只存在聊天上下文
 - `BLOCKED` 後 controller 必須提供有限選項與 resume target，不得用開放題中斷原計畫
+- 中大型重構的使用者回報應附上輕量進度條列；進度條列不是 shared truth，預設不落地
 
 ## 快速流程
 
@@ -60,6 +61,41 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - 不要在 contracts / protected zones 未凍結前平行派 implementer
 - 如果 context 可能 compact 或工作會跨 session，先讀 `references/compaction-resilience.md`
 - 如果 implementer 回報 `BLOCKED`，先讀 `references/blocked-resume-protocol.md`
+- 面向開發者回報進度時，只顯示短條列與目前 batch 狀態，不建立 dashboard 文件
+
+## 輕量進度回報
+
+controller 在中大型 migration 的使用者回覆中，應維持簡短進度條列：
+
+```md
+## 進度條列
+- [x] 完成 Discovery Triage
+- [ ] 決定 Full Discovery 或 bounded dispatch
+- [ ] 草擬 / 確認 spec
+- [ ] 草擬 / 凍結 contracts
+- [ ] 建立 migration-map
+- [ ] 撰寫目前 task-brief
+- [ ] 實作目前 batch
+- [ ] review 目前 batch
+- [ ] 驗證目前 batch
+- [ ] 更新 migration-map
+```
+
+若需要顯示批次，只保留最小表格：
+
+```md
+## 批次狀態
+| Batch | 狀態 | 下一步 |
+|---|---|---|
+| B-001 | ready | 撰寫 task-brief |
+```
+
+規則：
+
+- 進度條列只給人類快速看目前做到哪裡
+- 不取代 `spec`、`contracts`、`migration-map`、`task-brief`
+- 預設不落地成檔案
+- 只有使用者要求保存、context 可能 compact、或跨 session 時，才把必要進度摘要寫入 `controller-state.md`
 
 ## 必讀檔案
 
@@ -105,3 +141,4 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - 沒更新 `migration-map` 就開始下一批
 - compact / resume 後沒讀 shared truth 就直接繼續實作
 - `BLOCKED` 後只問使用者「怎麼辦」而沒有提供選項與回復路徑
+- 把輕量進度條列當成正式 shared truth 或額外 dashboard 維護

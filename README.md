@@ -10,6 +10,7 @@
 - 預設只持久化 `spec.md`、`contracts.md`、`migration-map.md`、`task-brief.md`
 - 在 context compact 或跨 session 時用 `controller-state.md` 保存最小恢復狀態
 - 在 `BLOCKED` 後用有限選項與 resume target 回到原 migration plan
+- 對開發者只顯示輕量進度條列，不預設建立 dashboard 文件
 - 其他 reports 預設只作為協作格式，必要時才落地
 
 ## 結構
