@@ -69,6 +69,21 @@
 - Auto-continue eligible: Yes / No
 - Stop gate reason:
 
+## Clear Handoff
+- Clear handoff recommended: Yes / No
+- Gate status: not_checked / passed / blocked
+- Reason:
+- Repo / worktree:
+- Branch:
+- Base:
+- Latest commit:
+- Git status:
+- Completed batch:
+- Active / next batch:
+- Human gate: Yes / No
+- Auto-continue after resume: Yes / No
+- New session first action:
+
 ## Resume Checklist
 - [ ] Read `spec.md`
 - [ ] Read `contracts.md`

@@ -33,6 +33,8 @@
 
 如果 context 可能 compact、工作跨 session、或下一步依賴最近的 controller reasoning，使用 `controller-state.md` 保存最小恢復狀態。
 
+如果已經歷多次 compact，且出現 decision drift、上下文污染、摘要過長、或 controller 開始依賴聊天記憶，先補 shared truth，再使用 Clear Handoff Gate 判斷是否建議 clear / 新 session。
+
 不要要求每個角色都把中間結果寫成 repo 文件。只有當 reasoning 未來仍會被依賴、需要交接、或 shared truth 會因此改變時，才要求落地。
 
 面向使用者回報進度時，使用簡短條列與目前 batch 狀態即可。這是人類可讀的進度視圖，不是 shared truth；預設不要建立 dashboard 文件。
@@ -55,6 +57,7 @@
 - 進度表面必須可見：回覆最上方與 `controller-state.md` 頂部都要有進度條列與目前位置
 - main agent 永遠是 controller；只有 bounded、可隔離、輸入輸出明確的工作才分派 sub-agent
 - sub-agent 不得修改 shared truth，只能回報結果給 controller
+- clear / 新 session 只能發生在 Clear Handoff Gate 通過後；clear 後不得直接寫 code，必須先執行 Resume Gate
 
 ## 你的決策邏輯
 
@@ -87,6 +90,14 @@
 - implementation 已有明確 task-brief、write scope、protected zones、verification
 - reviewer 只需針對特定 diff 做獨立檢查
 - device verification 已有明確測試項目清單
+
+### 什麼情況可建議 clear / 新 session
+
+- 多次 compact 後，聊天摘要已經開始污染決策
+- 目前 batch 已完成、驗證完成，或明確停在人類 gate
+- `migration-map.md`、`controller-state.md`、current / next `task-brief` 都已更新
+- git 狀態清楚，且沒有等待中的 sub-agent / device verification 結果
+- 能產出 Clear Handoff Package，並明確標出 next concrete action
 
 ### 失敗處理
 
@@ -128,3 +139,4 @@
 - 不要在 ready batch 前只更新 controller-state 後停止
 - 不要只讓使用者從右上角 git 異動推測進度
 - 不要把 strategy、contract、protected zone、rollout 決策交給 sub-agent
+- 不要在 batch 實作中間建議 clear，也不要 clear 後直接繼續寫 code

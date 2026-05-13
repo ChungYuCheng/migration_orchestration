@@ -8,6 +8,12 @@
 
 所有會影響下一步決策的資訊，都必須落在 shared truth artifacts 或 controller state，不得只存在聊天上下文。
 
+## Compact vs Clear
+
+compact 是同一 thread 內的短中期恢復機制。clear / 新 session 是受控交接機制，不是重置流程。
+
+若經歷多次 compact 後出現 decision drift、上下文污染、摘要過長、或 controller 開始依賴聊天記憶，先補 artifacts，再讀 `clear-handoff-policy.md` 判斷是否進入 Clear Handoff Gate。
+
 ## Compaction Gate
 
 在下列時機，controller 必須先更新可恢復狀態，再繼續派工：
@@ -24,6 +30,8 @@ Compaction gate 的最低輸出：
 - 當前 `task-brief` 能獨立支撐 implementer 執行
 - 若下一步仍依賴尚未完成的推理，建立或更新 `controller-state.md`
 - `controller-state.md` 頂部的進度條列與目前位置已更新
+
+若這次交接會建議 clear / 新 session，還必須補上 Clear Handoff Package，並確認 Clear Handoff Gate 通過。
 
 ## Resume Gate
 
@@ -45,6 +53,8 @@ compact 或 resume 後，controller 不得直接繼續寫 code。必須先讀：
 - next concrete action
 
 如果這些資訊不足，先補 shared truth 或回到 recon / dispatcher，不要讓 implementer 自行推測。
+
+clear / 新 session 後也適用 Resume Gate，且必須額外確認 handoff package 與 repo 現況一致。
 
 ## Controller State
 
@@ -98,6 +108,7 @@ compact 或 resume 後，controller 不得直接繼續寫 code。必須先讀：
 - frozen contract 被重新解釋
 - migration-map 和 repo 現況矛盾
 - 同一個 batch 在 compact 前後被切成不同 scope
+- 多次 compact 後舊假設開始干擾目前 batch
 
 處理順序：
 
@@ -105,4 +116,5 @@ compact 或 resume 後，controller 不得直接繼續寫 code。必須先讀：
 2. 更新 `migration-map.md`
 3. 補強當前 `task-brief`
 4. 必要時建立或更新 `controller-state.md`
-5. 再重新判斷是否可以 implement
+5. 若仍有上下文污染，執行 Clear Handoff Gate
+6. 再重新判斷是否可以 implement

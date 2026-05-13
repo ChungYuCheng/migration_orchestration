@@ -42,6 +42,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - 完成一個 batch 後，若下一批 ready 且沒有 human gate，controller 應自動續做，不應停在 resume target
 - 每次 controller 停下或交接時，回覆最上方與 `controller-state.md` 頂部都要顯示輕量進度
 - main agent 永遠是 controller；sub-agent 只處理 bounded 且可隔離的工作，不能更新 shared truth
+- 多次 compact 後若上下文開始污染決策，先補 shared truth，再用 Clear Handoff Gate 判斷是否建議 clear / 新 session
 
 ## 快速流程
 
@@ -70,6 +71,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - batch 完成後先讀 `references/continuation-policy.md` 判斷是否應自動續做
 - controller 停下、commit、blocked、compact 或續做下一批前，先讀 `references/progress-surface-policy.md` 更新進度表面
 - 分派 sub-agent 前，先讀 `references/subagent-dispatch-policy.md` 確認 task 是否 bounded 且可隔離
+- 經歷多次 compact 且出現 decision drift / 上下文污染時，先讀 `references/clear-handoff-policy.md`，只有 gate 通過才建議 clear
 - 面向開發者回報進度時，只顯示短條列與目前 batch 狀態，不建立 dashboard 文件
 
 ## 輕量進度回報
@@ -117,6 +119,7 @@ controller 在中大型 migration 的使用者回覆中，應維持簡短進度�
 - 自動續做規則：`references/continuation-policy.md`
 - 進度顯示規則：`references/progress-surface-policy.md`
 - Sub-agent 派工規則：`references/subagent-dispatch-policy.md`
+- Clear / 新 session 交接規則：`references/clear-handoff-policy.md`
 - 派工規則：`references/dispatching-rules.md`
 - 平行化規則：`references/parallelization-policy.md`
 - Compact / resume 規則：`references/compaction-resilience.md`
@@ -160,3 +163,4 @@ controller 在中大型 migration 的使用者回覆中，應維持簡短進度�
 - 下一批已 ready 且沒有 human gate 時，只留下 resume target 就停止
 - 只更新 git / 對話產出，沒有在回覆與 `controller-state.md` 顯示目前進度
 - 讓 sub-agent 修改 `spec`、`contracts`、`migration-map`、`controller-state` 或自行改變任務目標
+- 把 clear 當作修復混亂上下文的捷徑，而沒有先產出 handoff package 與確認 resume gate

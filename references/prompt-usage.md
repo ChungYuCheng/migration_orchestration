@@ -86,6 +86,7 @@ controller 可以在使用者回覆中顯示簡短「進度條列」與「批次
 - 不取代 `migration-map.md`
 - 只有使用者要求保存、context 可能 compact、或跨 session 時，才把必要進度摘要寫入 `controller-state.md`
 - 若 controller 停下、commit、blocked、compact、交接或續做下一批，必須同時更新回覆最上方與 `controller-state.md` 頂部
+- 若經歷多次 compact 後建議 clear / 新 session，必須先依 `clear-handoff-policy.md` 產出 handoff package，不能只叫使用者開新對話
 
 ## 餵 prompt 時應附帶的材料
 
@@ -96,6 +97,7 @@ controller 可以在使用者回覆中顯示簡短「進度條列」與「批次
 - `migration-map.md`
 - 目前重構目標
 - `controller-state.md`（如果是 compact / resume 後接續工作）
+- `clear-handoff-policy.md`（如果是 clear / 新 session 後接續工作）
 - `blocked-escalation.md`（如果是 `BLOCKED` 後接續工作）
 
 ### 給 discovery agent
