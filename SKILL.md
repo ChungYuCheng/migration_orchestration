@@ -38,6 +38,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - 會影響下一步決策的資訊必須寫入 shared truth 或 controller state，不得只存在聊天上下文
 - `BLOCKED` 後 controller 必須提供有限選項與 resume target，不得用開放題中斷原計畫
 - 中大型重構的使用者回報應附上輕量進度條列；進度條列不是 shared truth，預設不落地
+- AndroidEC UI / navigation / user flow 風險只有必要時才啟用 device verification，且必須先有測試項目清單
 
 ## 快速流程
 
@@ -61,6 +62,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - 不要在 contracts / protected zones 未凍結前平行派 implementer
 - 如果 context 可能 compact 或工作會跨 session，先讀 `references/compaction-resilience.md`
 - 如果 implementer 回報 `BLOCKED`，先讀 `references/blocked-resume-protocol.md`
+- 如果 AndroidEC task 影響 UI / navigation / user flow，review 前先讀 `references/device-verification-gate.md` 判斷是否需要裝置驗證
 - 面向開發者回報進度時，只顯示短條列與目前 batch 狀態，不建立 dashboard 文件
 
 ## 輕量進度回報
@@ -104,6 +106,7 @@ controller 在中大型 migration 的使用者回覆中，應維持簡短進度�
 - 協調流程：`references/controller-flow.md`
 - Failure 與升級：`references/failure-and-escalation.md`
 - Blocked 後恢復流程：`references/blocked-resume-protocol.md`
+- Device verification 規則：`references/device-verification-gate.md`
 - 派工規則：`references/dispatching-rules.md`
 - 平行化規則：`references/parallelization-policy.md`
 - Compact / resume 規則：`references/compaction-resilience.md`
@@ -125,6 +128,7 @@ controller 在中大型 migration 的使用者回覆中，應維持簡短進度�
 - `templates/context-packet.md`
 - `templates/controller-state.md`
 - `templates/blocked-escalation.md`
+- `templates/device-verification-items.md`
 - `templates/recon-report.md`
 - `templates/implementation-report.md`
 - `templates/review-report.md`
@@ -142,3 +146,4 @@ controller 在中大型 migration 的使用者回覆中，應維持簡短進度�
 - compact / resume 後沒讀 shared truth 就直接繼續實作
 - `BLOCKED` 後只問使用者「怎麼辦」而沒有提供選項與回復路徑
 - 把輕量進度條列當成正式 shared truth 或額外 dashboard 維護
+- 沒有測試項目清單就啟用 device verification，或讓驗證流程自行修復 / commit

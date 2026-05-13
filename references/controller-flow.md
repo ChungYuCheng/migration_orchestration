@@ -19,14 +19,15 @@
 10. 派 implementer
 11. 收到 implementation report
 12. 派 reviewer
-13. reviewer 回報給 controller
-14. controller 判斷：
+13. 若 reviewer 判斷需要 device verification -> 產生測試項目清單並執行裝置驗證
+14. reviewer 回報給 controller
+15. controller 判斷：
    - implementation fix -> 回 implementer
    - dispatch / recon / contract issue -> 升級處理
-15. 若 task blocked -> 執行 blocked resume protocol
-16. 符合 done definition -> 更新 migration-map
-17. 若 context 可能 compact 或工作要交接 -> 更新 controller-state
-18. 只有 shared truth 更新後，才派下一批
+16. 若 task blocked -> 執行 blocked resume protocol
+17. 符合 done definition -> 更新 migration-map
+18. 若 context 可能 compact 或工作要交接 -> 更新 controller-state
+19. 只有 shared truth 更新後，才派下一批
 ```
 
 ## 階段模型
@@ -106,6 +107,7 @@
 - 必要時先 recon
 - 再 implement
 - 最後 review
+- AndroidEC UI / navigation / user flow 風險，必要時加入 device verification
 - 若 blocked，先產出選項並等待使用者選擇，再回到 resume target
 
 退出條件：
@@ -114,6 +116,7 @@
 - 下批次前沒有 stale shared truth
 - 若要 compact / resume，`controller-state` 已更新
 - 若曾 blocked，resume target 已明確
+- 若需要 device verification，結果已處理為 pass / fail / skipped decision
 
 ## 完成定義（Done Definition）
 
@@ -124,6 +127,7 @@
 3. verification complete
 4. required shared truth updates applied
 5. no unresolved dependency on unconfirmed assumptions
+6. required device verification passed or skipped decision explicitly accepted
 
 簡化規則：
 

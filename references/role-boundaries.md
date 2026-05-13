@@ -19,6 +19,9 @@ Controller / Master Agent
   |
   |----> Reviewer Agent
   |<---- Review Report
+  |
+  |----> Device Verification
+  |<---- Device Verification Result
 ```
 
 規則：
@@ -165,6 +168,7 @@ Controller / Master Agent
 - 驗證是否違反 contract
 - 驗證測試與驗證是否足夠
 - 要求 implementer 補修正
+- 判斷 AndroidEC UI / navigation / user flow 風險是否需要 device verification
 
 可修改：
 
@@ -176,12 +180,41 @@ Controller / Master Agent
 - 不重寫 task
 - 不擴大需求
 - 不修改 shared truth
+- 不把 device verification 當成修復流程
 
 必須遵守：
 
 - `task-brief`
 - `contracts`
 - implementation diff
+
+## Device Verification
+
+責任：
+
+- 依 controller / reviewer 提供的測試項目清單執行裝置或模擬器驗證
+- 回報 pass / fail / skipped
+- 只描述實際觀察結果
+
+可修改：
+
+- 無 code 寫入權
+- 只輸出 device verification result
+
+禁止：
+
+- 不修改 production code
+- 不 commit
+- 不自行修復
+- 不自行決定是否重跑
+- 不自行推導測試項目
+- 不擴大驗證範圍
+
+必須遵守：
+
+- `device-verification-items`
+- `task-brief`
+- `contracts`
 
 ## Shared Truth Artifacts
 

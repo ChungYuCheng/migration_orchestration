@@ -11,6 +11,11 @@
 ## 測試充分性
 - Pass / Fail
 
+## Device Verification
+- Required: Yes / No
+- Status: pass / fail / skipped / not_run
+- Notes:
+
 ## 邊界違規
 - 
 

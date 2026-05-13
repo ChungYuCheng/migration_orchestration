@@ -68,6 +68,7 @@
 - 額外 context packet
 - controller-state
 - blocked escalation
+- device verification items
 
 ## 輕量進度顯示
 
@@ -117,3 +118,4 @@ controller 可以在使用者回覆中顯示簡短「進度條列」與「批次
 - `contracts.md`
 - implementation diff
 - verification results
+- `device-verification-items.md`（只有需要裝置驗證時）

@@ -48,6 +48,7 @@
 - reviewer 的退回一律先回 controller，再由 controller 決定路由
 - compact / resume 後不得直接繼續寫 code；必須先讀 shared truth 與 controller state
 - `BLOCKED` 後不得問開放題；必須提出 2 到 4 個選項、標出 recommended、並為每個選項寫明 resume target
+- device verification 是高成本 gate；只有 AndroidEC UI / navigation / user flow 風險無法靠一般驗證確認時才啟用，且必須先有測試項目清單
 
 ## 你的決策邏輯
 
@@ -81,6 +82,7 @@
 - 相同原因的 `BLOCKED` 第二次出現，必須升級
 - reviewer 不直接退 implementer，而是回 controller 做 routing
 - 使用者選定 blocked 解法後，先更新 shared truth / controller-state，再回到原 batch 或明確的新 resume target
+- device verification `skipped` 不等於 pass；若主要風險只能靠裝置驗證確認，必須變成人類決策點
 
 ### Batch 完成與下一批啟動
 
@@ -106,3 +108,4 @@
 - 不要把會影響下一步決策的資訊只留在聊天上下文
 - 不要在 blocked remediation 完成後忘記回到原 migration plan
 - 不要為了顯示進度而新增大型 dashboard 文件，除非使用者明確要求
+- 不要沒有測試項目清單就啟用 device verification

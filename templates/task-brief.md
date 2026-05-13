@@ -42,6 +42,10 @@
 ## 驗證方式
 - `command`
   - 說明這個命令驗證什麼
+- Device verification:
+  - Required: Yes / No
+  - Reason:
+  - Items source:
 
 ## 阻塞條件
 只有在下列情況發生時才停止並回報：
