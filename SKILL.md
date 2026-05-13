@@ -36,6 +36,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - caller migration 只能在 contracts 凍結後平行化
 - worker 若需要碰 protected zone，必須回報 `BLOCKED`
 - 會影響下一步決策的資訊必須寫入 shared truth 或 controller state，不得只存在聊天上下文
+- `BLOCKED` 後 controller 必須提供有限選項與 resume target，不得用開放題中斷原計畫
 
 ## 快速流程
 
@@ -58,6 +59,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - 只有在 task-brief 放不下必要上下文，且 implementer 會因此重讀大量 repo 時，才建立額外 `context-packet`
 - 不要在 contracts / protected zones 未凍結前平行派 implementer
 - 如果 context 可能 compact 或工作會跨 session，先讀 `references/compaction-resilience.md`
+- 如果 implementer 回報 `BLOCKED`，先讀 `references/blocked-resume-protocol.md`
 
 ## 必讀檔案
 
@@ -65,6 +67,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - Discovery 規則：`references/discovery-phase.md`
 - 協調流程：`references/controller-flow.md`
 - Failure 與升級：`references/failure-and-escalation.md`
+- Blocked 後恢復流程：`references/blocked-resume-protocol.md`
 - 派工規則：`references/dispatching-rules.md`
 - 平行化規則：`references/parallelization-policy.md`
 - Compact / resume 規則：`references/compaction-resilience.md`
@@ -85,6 +88,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - `templates/dispatch-plan.md`
 - `templates/context-packet.md`
 - `templates/controller-state.md`
+- `templates/blocked-escalation.md`
 - `templates/recon-report.md`
 - `templates/implementation-report.md`
 - `templates/review-report.md`
@@ -100,3 +104,4 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - 把 migration task 切成零碎 patch，而不是完整 migration slice
 - 沒更新 `migration-map` 就開始下一批
 - compact / resume 後沒讀 shared truth 就直接繼續實作
+- `BLOCKED` 後只問使用者「怎麼辦」而沒有提供選項與回復路徑

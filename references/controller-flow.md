@@ -23,9 +23,10 @@
 14. controller 判斷：
    - implementation fix -> 回 implementer
    - dispatch / recon / contract issue -> 升級處理
-15. 符合 done definition -> 更新 migration-map
-16. 若 context 可能 compact 或工作要交接 -> 更新 controller-state
-17. 只有 shared truth 更新後，才派下一批
+15. 若 task blocked -> 執行 blocked resume protocol
+16. 符合 done definition -> 更新 migration-map
+17. 若 context 可能 compact 或工作要交接 -> 更新 controller-state
+18. 只有 shared truth 更新後，才派下一批
 ```
 
 ## 階段模型
@@ -105,12 +106,14 @@
 - 必要時先 recon
 - 再 implement
 - 最後 review
+- 若 blocked，先產出選項並等待使用者選擇，再回到 resume target
 
 退出條件：
 
 - `migration-map` 已更新
 - 下批次前沒有 stale shared truth
 - 若要 compact / resume，`controller-state` 已更新
+- 若曾 blocked，resume target 已明確
 
 ## 完成定義（Done Definition）
 

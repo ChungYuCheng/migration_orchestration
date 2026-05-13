@@ -45,6 +45,7 @@
 - 若 worker 需要碰 protected zone，必須先停下並重新規劃
 - reviewer 的退回一律先回 controller，再由 controller 決定路由
 - compact / resume 後不得直接繼續寫 code；必須先讀 shared truth 與 controller state
+- `BLOCKED` 後不得問開放題；必須提出 2 到 4 個選項、標出 recommended、並為每個選項寫明 resume target
 
 ## 你的決策邏輯
 
@@ -77,6 +78,7 @@
 - `BLOCKED` 第一次可做一次局部補救
 - 相同原因的 `BLOCKED` 第二次出現，必須升級
 - reviewer 不直接退 implementer，而是回 controller 做 routing
+- 使用者選定 blocked 解法後，先更新 shared truth / controller-state，再回到原 batch 或明確的新 resume target
 
 ### Batch 完成與下一批啟動
 
@@ -99,3 +101,4 @@
 - 不要在 `migration-map` 過期時繼續派工
 - 不要讓多個 implementer 同時修改 shared interfaces 或 shared schemas
 - 不要把會影響下一步決策的資訊只留在聊天上下文
+- 不要在 blocked remediation 完成後忘記回到原 migration plan

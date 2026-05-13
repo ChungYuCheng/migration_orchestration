@@ -67,6 +67,7 @@
 - review report
 - 額外 context packet
 - controller-state
+- blocked escalation
 
 ## 餵 prompt 時應附帶的材料
 
@@ -77,6 +78,7 @@
 - `migration-map.md`
 - 目前重構目標
 - `controller-state.md`（如果是 compact / resume 後接續工作）
+- `blocked-escalation.md`（如果是 `BLOCKED` 後接續工作）
 
 ### 給 discovery agent
 

@@ -37,6 +37,9 @@
   - Reason:
   - Owner:
   - Escalation path:
+  - Chosen option:
+  - Resume target:
+  - Resume status:
 
 ## Next Concrete Action
 - Do next:

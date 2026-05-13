@@ -43,10 +43,11 @@
 定位：
 
 - implementer 在目前前提下無法合法完成 task
+- blocked task 是受控分支，不是新計畫
 
 第一次：
 
-- controller 允許一次局部補救
+- controller 允許一次局部補救，但必須先輸出有限選項與 resume target
 - 補救只能集中在一個方向：
   - 補 shared truth 說明
   - 微調 task scope
@@ -72,6 +73,24 @@
 特別規則：
 
 - 若原因是 `brief_repo_mismatch` 或 shared truth drift，優先先修 shared truth
+- controller 不得問開放題；必須依 `blocked-resume-protocol.md` 提出 2 到 4 個選項
+- 每個選項都必須包含 `Resume target`
+- 使用者選定後，先更新 `controller-state.md` / `migration-map.md`，再執行補救
+
+## Blocked Resume
+
+`BLOCKED` 的標準恢復順序：
+
+1. 凍結原 task，不改原目標
+2. 在 `migration-map.md` 標記 batch 為 `blocked`
+3. 整理 blocked reason、affected contracts、protected zones
+4. 產出 `Blocked Escalation` 選項
+5. 等使用者選擇
+6. 更新 shared truth 與 `controller-state.md`
+7. 執行補救 task
+8. 明確回到 original batch、revised task、prerequisite batch 或 independent batch
+
+如果 controller 無法說出 active batch、active task brief、shared truth changes、next concrete action，不能派 implementer。
 
 ## Reviewer Return
 

@@ -33,6 +33,7 @@ Controller / Master Agent
 
 - 維護 `spec`、`contracts`、`migration-map`
 - 必要時維護 `controller-state`
+- 必要時產出 `blocked-escalation`
 - 決定是否需要 upfront discovery
 - 定義 protected zones
 - 決定哪些任務先 recon
@@ -45,6 +46,7 @@ Controller / Master Agent
 - `templates` 複製出來的工作文件
 - `migration-map`
 - controller-state
+- blocked-escalation
 - task briefs
 - optional context packets
 
@@ -59,6 +61,7 @@ Controller / Master Agent
 - `contracts`
 - `migration-map`
 - `controller-state`（如果存在）
+- `blocked-escalation`（如果正在處理 BLOCKED）
 
 ## Dispatcher / Task Planner
 
@@ -201,6 +204,12 @@ Controller / Master Agent
 
 - 記錄 compact / resume / 交接所需的最小恢復狀態
 - 不是第二份 migration plan，也不取代 `migration-map`
+- 只有 controller 可修改
+
+### `blocked-escalation.md`
+
+- 記錄 `BLOCKED` 後給使用者選擇的有限解法與 resume target
+- 不是新 migration plan，也不允許 implementer 自行放寬 scope
 - 只有 controller 可修改
 
 ### `context-packet.md`
