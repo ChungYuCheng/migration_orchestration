@@ -42,7 +42,7 @@
 - 需要放寬 protected zone
 - 需要擴大 write scope 到 core / shared area
 - 需要 rollout / rollback / release 策略決策
-- `BLOCKED` 後沒有使用者選定的 remediation option
+- `BLOCKED` 被分類為 human blocked，且沒有使用者選定 remediation option
 - device verification `skipped`，且該 batch 的主要風險只能靠裝置驗證確認
 - controller 無法說清楚 active batch、active task brief、next concrete action
 
@@ -63,6 +63,7 @@
 
 - 低風險、bounded、可回復的下一批，自動續做
 - 中風險但可提出明確選項的情況，給 recommended option
+- 技術性 `BLOCKED` 若符合 auto-selection criteria，自動選 recommended option，建立 remediation batch 並繼續
 - 高風險或會改變 shared truth 的情況，等待人類確認
 
 ## Resume Target Rule

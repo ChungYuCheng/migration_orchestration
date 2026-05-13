@@ -245,7 +245,7 @@ Controller / Master Agent
 
 ### `blocked-escalation.md`
 
-- 記錄 `BLOCKED` 後給使用者選擇的有限解法與 resume target
+- 記錄 `BLOCKED` 後的有限解法、decision mode 與 resume target
 - 不是新 migration plan，也不允許 implementer 自行放寬 scope
 - 只有 controller 可修改
 

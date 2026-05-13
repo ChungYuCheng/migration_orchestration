@@ -24,7 +24,7 @@
 15. controller 判斷：
    - implementation fix -> 回 implementer
    - dispatch / recon / contract issue -> 升級處理
-16. 若 task blocked -> 執行 blocked resume protocol
+16. 若 task blocked -> 執行 blocked resume protocol，先分類 technical / human blocked
 17. 符合 done definition -> 更新 migration-map
 18. 若 context 可能 compact 或工作要交接 -> 更新 controller-state
 19. 執行 continuation policy：
@@ -110,7 +110,7 @@
 - 再 implement
 - 最後 review
 - AndroidEC UI / navigation / user flow 風險，必要時加入 device verification
-- 若 blocked，先產出選項並等待使用者選擇，再回到 resume target
+- 若 blocked，先產出選項並分類；technical blocked 自動選 recommended option，human blocked 才等待使用者選擇
 - batch done 後套用 continuation policy，不要只停在 resume target
 
 退出條件：

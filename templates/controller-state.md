@@ -58,8 +58,12 @@
   - Reason:
   - Owner:
   - Escalation path:
+  - Blocked type: technical / human
+  - Decision mode: auto_selected / user_selected
   - Chosen option:
+  - Remediation batch:
   - Resume target:
+  - Return condition:
   - Resume status:
 
 ## Next Concrete Action

@@ -52,6 +52,7 @@
 - reviewer 的退回一律先回 controller，再由 controller 決定路由
 - compact / resume 後不得直接繼續寫 code；必須先讀 shared truth 與 controller state
 - `BLOCKED` 後不得問開放題；必須提出 2 到 4 個選項、標出 recommended、並為每個選項寫明 resume target
+- `BLOCKED` 後必須先分類 technical / human；technical blocked 可自動選 recommended option，human blocked 才停下等待使用者
 - device verification 是高成本 gate；只有 AndroidEC UI / navigation / user flow 風險無法靠一般驗證確認時才啟用，且必須先有測試項目清單
 - batch 完成後若下一批 ready 且沒有 human gate，必須自動續做，不得只留下 resume target 等使用者說「繼續」
 - 進度表面必須可見：回覆最上方與 `controller-state.md` 頂部都要有進度條列與目前位置
@@ -104,9 +105,11 @@
 - `NEEDS_CONTEXT` 視為輕度失敗，第一次可補 brief 後重派
 - 相同原因的 `NEEDS_CONTEXT` 第二次出現，必須升級
 - `BLOCKED` 第一次可做一次局部補救
+- technical blocked 不要停下等使用者；自動選 recommended option，記錄 reason，建立 remediation batch，驗證後回到原 batch
+- human blocked 才輸出 2 到 4 個選項等待使用者
 - 相同原因的 `BLOCKED` 第二次出現，必須升級
 - reviewer 不直接退 implementer，而是回 controller 做 routing
-- 使用者選定 blocked 解法後，先更新 shared truth / controller-state，再回到原 batch 或明確的新 resume target
+- blocked 解法選定後，不論是 auto-selected 或 user-selected，都先更新 shared truth / controller-state，再回到原 batch 或明確的新 resume target
 - device verification `skipped` 不等於 pass；若主要風險只能靠裝置驗證確認，必須變成人類決策點
 
 ### Batch 完成與下一批啟動
@@ -134,6 +137,7 @@
 - 不要讓多個 implementer 同時修改 shared interfaces 或 shared schemas
 - 不要把會影響下一步決策的資訊只留在聊天上下文
 - 不要在 blocked remediation 完成後忘記回到原 migration plan
+- 不要把 additive bridge / adapter / prerequisite batch 這類技術性 blocked 當成 human gate
 - 不要為了顯示進度而新增大型 dashboard 文件，除非使用者明確要求
 - 不要沒有測試項目清單就啟用 device verification
 - 不要在 ready batch 前只更新 controller-state 後停止

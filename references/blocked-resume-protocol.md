@@ -1,12 +1,17 @@
 # Blocked Resume Protocol
 
-這份文件定義 `BLOCKED` 後如何升級、讓使用者選擇處理方式，並在處理完成後回到原本 migration plan。
+這份文件定義 `BLOCKED` 後如何分類、選擇處理方式，並在處理完成後回到原本 migration plan。
 
 ## 核心原則
 
 > A blocked task is a controlled branch, not a new plan.
 
 `BLOCKED` 發生後，controller 不得問開放題，也不得直接順手修。controller 必須保留原 batch，提出有限選項，並為每個選項標明 resume target。
+
+`BLOCKED` 不一定等於 human gate。controller 必須先分類：
+
+- `technical blocked`: 可由 controller 自動選 recommended option 並繼續
+- `human blocked`: 必須停下等待使用者選擇
 
 ## Blocked Gate
 
@@ -22,9 +27,52 @@
 
 接著把原 batch 在 `migration-map.md` 標成 `blocked`，必要時更新 `controller-state.md`。
 
+## Blocked Classification
+
+### Technical Blocked
+
+同時符合下列條件時，controller 可以自動選擇 recommended option，不需要停下等使用者：
+
+- 不改變產品行為、UX、route enablement
+- 不修改 rollout / rollback / release 策略
+- 不放寬 protected zone
+- 不擴大到 core / shared area 的非預期 write scope
+- contract 變更是 additive bridge、adapter、facade、typed action carrying 或相容性補強
+- 不重新定義 frozen contract 的語意
+- 有唯一且明確的 recommended option
+- remediation 可切成 bounded prerequisite batch 或 bounded contract clarification
+- verification command 明確
+- 不是同原因第二次 `BLOCKED`
+- controller 能說清楚 resume target 與 return condition
+
+符合時，controller 應：
+
+1. 記錄 `Decision mode: auto_selected`
+2. 記錄 auto-selection reason
+3. 更新 `migration-map.md` 與 `controller-state.md`
+4. 建立 remediation batch 或 revised task brief
+5. 執行 remediation
+6. 驗證 remediation
+7. 回到原 batch / revised task / prerequisite batch 的 resume target
+
+### Human Blocked
+
+遇到下列任一情況，必須停下等待使用者選擇：
+
+- 需要改變 migration 目標 / 非目標
+- 需要重新定義 frozen contract 的語意
+- 需要放寬 protected zone
+- 需要啟用新 route、修改 Remote Config defaults、或改變 production rollout
+- 需要 release / rollback 決策
+- 需要擴大 write scope 到 core / shared area
+- 會改變使用者可見行為、UX、交易流程或風險承擔
+- recommended option 不唯一或風險接近
+- 同原因第二次 `BLOCKED`
+- controller 無法說清楚 resume target、return condition 或 verification
+
 ## Option Set
 
-controller 必須提出 2 到 4 個選項，且標出一個 recommended。
+controller 必須提出 2 到 4 個選項，且標出一個 recommended。即使是 technical blocked 且會自動選擇，也要留下選項與選擇理由，讓後續 review 可追蹤。
 
 每個選項必須包含：
 
@@ -100,16 +148,18 @@ controller 必須提出 2 到 4 個選項，且標出一個 recommended。
 - `controller-state.md` 記錄回來條件
 - 切到明確不依賴 blocked 前提的 batch
 
-## After User Decision
+## After Decision
 
-使用者選定選項後，controller 必須依序執行：
+選項由 controller 自動選定或由使用者選定後，controller 必須依序執行：
 
-1. 記錄 chosen option
-2. 更新 `controller-state.md`
-3. 更新必要 shared truth
-4. 執行選項中的 remediation task
-5. 驗證 remediation 是否完成
-6. 執行 resume action
+1. 記錄 decision mode：`auto_selected` 或 `user_selected`
+2. 記錄 chosen option
+3. 記錄 auto-selection reason 或 human gate reason
+4. 更新 `controller-state.md`
+5. 更新必要 shared truth
+6. 執行選項中的 remediation task
+7. 驗證 remediation 是否完成
+8. 執行 resume action
 
 resume action 必須是下列之一：
 

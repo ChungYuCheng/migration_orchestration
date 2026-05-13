@@ -1,6 +1,6 @@
 # Blocked Escalation
 
-> Optional artifact. 用於 `BLOCKED` 後需要人類選擇處理方向時。這不是新計畫，而是回到原 migration plan 的受控分支。
+> Optional artifact. 用於 `BLOCKED` 後記錄有限解法、auto-selected / user-selected 決策與 resume target。這不是新計畫，而是回到原 migration plan 的受控分支。
 
 ## Original Task
 - Batch ID:
@@ -61,8 +61,11 @@
 - Choose:
 - Because:
 
-## User Decision
+## Resolution Decision
+- Decision mode: auto_selected / user_selected
 - Chosen option:
+- Auto-selection reason:
+- Human gate reason:
 - Decision timestamp:
 
 ## Resume Action

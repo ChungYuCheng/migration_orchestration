@@ -34,7 +34,7 @@ clear 不是修復流程混亂的捷徑。只有 shared truth 足夠完整、目
 6. current 或 next `task-brief` 能獨立執行
 7. `spec.md`、`contracts.md`、protected zones 沒有未寫入的口頭決策
 8. git 狀態清楚：已 commit，或列出所有未提交變更與原因
-9. 沒有未處理的 `BLOCKED` option selection
+9. 沒有未處理的 human blocked option selection
 10. 沒有正在等待中的 sub-agent 結果
 
 任一項不成立，不要 clear。先補 shared truth、完成 batch 邊界、或停在人類 gate。
@@ -45,7 +45,7 @@ clear 不是修復流程混亂的捷徑。只有 shared truth 足夠完整、目
 - reviewer 尚未完成目前 batch
 - tests 尚未跑完或結果未整理
 - device verification 正在進行或結果未判讀
-- `BLOCKED` 已發生但使用者尚未選 remediation option
+- human blocked 已發生但使用者尚未選 remediation option
 - frozen contract / protected zone 還在討論中
 - git working tree 狀態不清楚
 - controller 無法說清楚下一個 concrete action

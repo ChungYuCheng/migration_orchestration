@@ -37,6 +37,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - worker 若需要碰 protected zone，必須回報 `BLOCKED`
 - 會影響下一步決策的資訊必須寫入 shared truth 或 controller state，不得只存在聊天上下文
 - `BLOCKED` 後 controller 必須提供有限選項與 resume target，不得用開放題中斷原計畫
+- 技術性 `BLOCKED` 若符合 auto-selection 條件，controller 應自動選 recommended option、建立 remediation batch 並回到原計畫；只有 human blocked 才停下等使用者
 - 中大型重構的使用者回報應附上輕量進度條列；進度條列不是 shared truth，預設不落地
 - AndroidEC UI / navigation / user flow 風險只有必要時才啟用 device verification，且必須先有測試項目清單
 - 完成一個 batch 後，若下一批 ready 且沒有 human gate，controller 應自動續做，不應停在 resume target
@@ -66,7 +67,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - 只有在 task-brief 放不下必要上下文，且 implementer 會因此重讀大量 repo 時，才建立額外 `context-packet`
 - 不要在 contracts / protected zones 未凍結前平行派 implementer
 - 如果 context 可能 compact 或工作會跨 session，先讀 `references/compaction-resilience.md`
-- 如果 implementer 回報 `BLOCKED`，先讀 `references/blocked-resume-protocol.md`
+- 如果 implementer 回報 `BLOCKED`，先讀 `references/blocked-resume-protocol.md` 分類 technical / human blocked
 - 如果 AndroidEC task 影響 UI / navigation / user flow，review 前先讀 `references/device-verification-gate.md` 判斷是否需要裝置驗證
 - batch 完成後先讀 `references/continuation-policy.md` 判斷是否應自動續做
 - controller 停下、commit、blocked、compact 或續做下一批前，先讀 `references/progress-surface-policy.md` 更新進度表面
@@ -158,6 +159,7 @@ controller 在中大型 migration 的使用者回覆中，應維持簡短進度�
 - 沒更新 `migration-map` 就開始下一批
 - compact / resume 後沒讀 shared truth 就直接繼續實作
 - `BLOCKED` 後只問使用者「怎麼辦」而沒有提供選項與回復路徑
+- 把可自動處理的技術性 `BLOCKED` 當成 human gate，導致流程不必要中斷
 - 把輕量進度條列當成正式 shared truth 或額外 dashboard 維護
 - 沒有測試項目清單就啟用 device verification，或讓驗證流程自行修復 / commit
 - 下一批已 ready 且沒有 human gate 時，只留下 resume target 就停止
