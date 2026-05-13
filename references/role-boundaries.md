@@ -32,6 +32,7 @@ Controller / Master Agent
 責任：
 
 - 維護 `spec`、`contracts`、`migration-map`
+- 必要時維護 `controller-state`
 - 決定是否需要 upfront discovery
 - 定義 protected zones
 - 決定哪些任務先 recon
@@ -43,6 +44,7 @@ Controller / Master Agent
 
 - `templates` 複製出來的工作文件
 - `migration-map`
+- controller-state
 - task briefs
 - optional context packets
 
@@ -56,6 +58,7 @@ Controller / Master Agent
 - `spec`
 - `contracts`
 - `migration-map`
+- `controller-state`（如果存在）
 
 ## Dispatcher / Task Planner
 
@@ -192,6 +195,12 @@ Controller / Master Agent
 ### `migration-map.md`
 
 - 記錄批次狀態、legacy -> target 對應、cleanup gates
+- 只有 controller 可修改
+
+### `controller-state.md`
+
+- 記錄 compact / resume / 交接所需的最小恢復狀態
+- 不是第二份 migration plan，也不取代 `migration-map`
 - 只有 controller 可修改
 
 ### `context-packet.md`

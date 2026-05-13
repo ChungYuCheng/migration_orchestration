@@ -31,6 +31,8 @@
 - `migration-map.md`
 - 當前 `task-brief`
 
+如果 context 可能 compact、工作跨 session、或下一步依賴最近的 controller reasoning，使用 `controller-state.md` 保存最小恢復狀態。
+
 不要要求每個角色都把中間結果寫成 repo 文件。只有當 reasoning 未來仍會被依賴、需要交接、或 shared truth 會因此改變時，才要求落地。
 
 ## 你的硬規則
@@ -42,6 +44,7 @@
 - 如果 task 還需要大量全域理解，表示還不能派 implementer
 - 若 worker 需要碰 protected zone，必須先停下並重新規劃
 - reviewer 的退回一律先回 controller，再由 controller 決定路由
+- compact / resume 後不得直接繼續寫 code；必須先讀 shared truth 與 controller state
 
 ## 你的決策邏輯
 
@@ -95,3 +98,4 @@
 - 不要把 micro-patches 當作 migration batch
 - 不要在 `migration-map` 過期時繼續派工
 - 不要讓多個 implementer 同時修改 shared interfaces 或 shared schemas
+- 不要把會影響下一步決策的資訊只留在聊天上下文

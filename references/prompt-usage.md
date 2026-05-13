@@ -21,6 +21,7 @@
   - `contracts.md`
   - `migration-map.md`
   - 當前 `task-brief`
+  - `controller-state.md`（只有 compact / resume / 交接需要時）
 
 ## 建議順序
 
@@ -65,6 +66,7 @@
 - implementation report
 - review report
 - 額外 context packet
+- controller-state
 
 ## 餵 prompt 時應附帶的材料
 
@@ -74,6 +76,7 @@
 - `contracts.md`
 - `migration-map.md`
 - 目前重構目標
+- `controller-state.md`（如果是 compact / resume 後接續工作）
 
 ### 給 discovery agent
 

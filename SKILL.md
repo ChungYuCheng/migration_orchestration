@@ -35,6 +35,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - shared interface、schema、cross-cutting config 一律序列化處理
 - caller migration 只能在 contracts 凍結後平行化
 - worker 若需要碰 protected zone，必須回報 `BLOCKED`
+- 會影響下一步決策的資訊必須寫入 shared truth 或 controller state，不得只存在聊天上下文
 
 ## 快速流程
 
@@ -56,6 +57,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - 預設用單一 `task-brief` 作為 implementer 入口
 - 只有在 task-brief 放不下必要上下文，且 implementer 會因此重讀大量 repo 時，才建立額外 `context-packet`
 - 不要在 contracts / protected zones 未凍結前平行派 implementer
+- 如果 context 可能 compact 或工作會跨 session，先讀 `references/compaction-resilience.md`
 
 ## 必讀檔案
 
@@ -65,6 +67,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - Failure 與升級：`references/failure-and-escalation.md`
 - 派工規則：`references/dispatching-rules.md`
 - 平行化規則：`references/parallelization-policy.md`
+- Compact / resume 規則：`references/compaction-resilience.md`
 - Prompts 用法：`references/prompt-usage.md`
 
 ## 必備模板
@@ -81,6 +84,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - `templates/discovery-report.md`
 - `templates/dispatch-plan.md`
 - `templates/context-packet.md`
+- `templates/controller-state.md`
 - `templates/recon-report.md`
 - `templates/implementation-report.md`
 - `templates/review-report.md`
@@ -95,3 +99,4 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - 讓 implementer 自行修改 shared truth
 - 把 migration task 切成零碎 patch，而不是完整 migration slice
 - 沒更新 `migration-map` 就開始下一批
+- compact / resume 後沒讀 shared truth 就直接繼續實作

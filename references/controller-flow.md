@@ -24,7 +24,8 @@
    - implementation fix -> 回 implementer
    - dispatch / recon / contract issue -> 升級處理
 15. 符合 done definition -> 更新 migration-map
-16. 只有 shared truth 更新後，才派下一批
+16. 若 context 可能 compact 或工作要交接 -> 更新 controller-state
+17. 只有 shared truth 更新後，才派下一批
 ```
 
 ## 階段模型
@@ -109,6 +110,7 @@
 
 - `migration-map` 已更新
 - 下批次前沒有 stale shared truth
+- 若要 compact / resume，`controller-state` 已更新
 
 ## 完成定義（Done Definition）
 

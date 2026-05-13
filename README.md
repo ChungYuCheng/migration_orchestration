@@ -8,6 +8,7 @@
 - 先用最低成本做 triage，必要時再做 discovery / recon
 - 以 `task-brief` 作為 implementer 的單一工作入口
 - 預設只持久化 `spec.md`、`contracts.md`、`migration-map.md`、`task-brief.md`
+- 在 context compact 或跨 session 時用 `controller-state.md` 保存最小恢復狀態
 - 其他 reports 預設只作為協作格式，必要時才落地
 
 ## 結構
@@ -15,7 +16,7 @@
 - `SKILL.md`: 主 skill 定義
 - `references/`: 流程規則、角色邊界、failure / escalation 等參考文件
 - `prompts/`: controller、discovery、dispatcher、implementer、reviewer prompts
-- `templates/`: `spec`、`contracts`、`migration-map`、`task-brief` 與可選報告模板
+- `templates/`: `spec`、`contracts`、`migration-map`、`task-brief`、`controller-state` 與可選報告模板
 
 ## 使用方式
 
