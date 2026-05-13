@@ -29,6 +29,8 @@ Controller / Master Agent
 - agent 不直接自由對話
 - 所有正式交接都經過 controller
 - 只有 controller 可以更新 shared truth
+- 角色不一定等於獨立 sub-agent；小型工作可由 main controller 依序扮演
+- 若分派 sub-agent，必須遵守 `subagent-dispatch-policy.md`
 
 ## Controller / Master Agent
 
@@ -43,6 +45,7 @@ Controller / Master Agent
 - 切 task brief，必要時才補 context packet
 - 判斷哪些批次可以平行
 - 整合 recon、implementation、review 結果
+- 決定哪些角色需要實際分派 sub-agent
 
 可修改：
 
@@ -57,6 +60,7 @@ Controller / Master Agent
 
 - 在 shared boundary 尚未穩定前派多個 implementer 平行改 core files
 - 把未收斂的架構問題直接丟給 implementer
+- 把 shared truth 寫入權交給 sub-agent
 
 必須遵守：
 

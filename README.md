@@ -14,6 +14,7 @@
 - AndroidEC UI / navigation / user flow 風險才啟用 device verification
 - 下一批 ready 且沒有 human gate 時自動續做，不停在 resume target
 - controller 停下或交接時，在回覆與 `controller-state.md` 頂部同步顯示輕量進度
+- main agent 永遠是 controller；sub-agent 只處理 bounded 且可隔離的工作
 - 其他 reports 預設只作為協作格式，必要時才落地
 
 ## 結構

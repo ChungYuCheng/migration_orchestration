@@ -14,6 +14,7 @@
 
 - 一次只允許一個 `controller`
 - `discovery`、`dispatcher`、`implementer`、`reviewer` 都由 controller 指派
+- 角色可以由 main controller 依序扮演，也可以在符合 `subagent-dispatch-policy.md` 時分派 sub-agent
 - prompt 不是 shared truth，本身不應該承載專案真相
 - discovery / recon / review / dispatch 的中間輸出，預設是協作訊息，不是 repo 文件
 - 真正的專案真相應放在：

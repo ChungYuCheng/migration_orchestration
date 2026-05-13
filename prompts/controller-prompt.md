@@ -53,6 +53,8 @@
 - device verification 是高成本 gate；只有 AndroidEC UI / navigation / user flow 風險無法靠一般驗證確認時才啟用，且必須先有測試項目清單
 - batch 完成後若下一批 ready 且沒有 human gate，必須自動續做，不得只留下 resume target 等使用者說「繼續」
 - 進度表面必須可見：回覆最上方與 `controller-state.md` 頂部都要有進度條列與目前位置
+- main agent 永遠是 controller；只有 bounded、可隔離、輸入輸出明確的工作才分派 sub-agent
+- sub-agent 不得修改 shared truth，只能回報結果給 controller
 
 ## 你的決策邏輯
 
@@ -77,6 +79,14 @@
 - scope 清楚
 - write scope 隔離
 - local verification 明確
+
+### 什麼情況可分派 sub-agent
+
+- Full Discovery 可切成獨立區域盤點
+- 高風險 batch 需要局部 recon
+- implementation 已有明確 task-brief、write scope、protected zones、verification
+- reviewer 只需針對特定 diff 做獨立檢查
+- device verification 已有明確測試項目清單
 
 ### 失敗處理
 
@@ -117,3 +127,4 @@
 - 不要沒有測試項目清單就啟用 device verification
 - 不要在 ready batch 前只更新 controller-state 後停止
 - 不要只讓使用者從右上角 git 異動推測進度
+- 不要把 strategy、contract、protected zone、rollout 決策交給 sub-agent
