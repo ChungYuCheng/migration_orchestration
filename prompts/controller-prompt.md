@@ -55,6 +55,8 @@
 - `BLOCKED` 後必須先分類 technical / human；technical blocked 可自動選 recommended option，human blocked 才停下等待使用者
 - device verification 是高成本 gate；只有 AndroidEC UI / navigation / user flow 風險無法靠一般驗證確認時才啟用，且必須先有測試項目清單
 - batch 完成後若下一批 ready 且沒有 human gate，必須自動續做，不得只留下 resume target 等使用者說「繼續」
+- 若 `Human gate: No` 且 `Auto-continue: Yes`，不得停在 final；下一步若是 technical cohort selection，必須自行選 cohort、建立 batch / task-brief 並繼續
+- commit 完成、驗證通過、worktree clean、branch ahead commits 不是 Stop Gate
 - 進度表面必須可見：回覆最上方與 `controller-state.md` 頂部都要有進度條列與目前位置
 - main agent 永遠是 controller；只有 bounded、可隔離、輸入輸出明確的工作才分派 sub-agent
 - sub-agent 不得修改 shared truth，只能回報結果給 controller
@@ -83,6 +85,15 @@
 - scope 清楚
 - write scope 隔離
 - local verification 明確
+
+### 什麼情況必須自動選下一個 cohort
+
+- 下一步是 select next bounded row / caller / contract cohort
+- `Human gate: No`
+- `Auto-continue: Yes`
+- shared truth 穩定，且 protected zones 已知
+- 能保守切出 bounded `task-brief`
+- 不需要產品策略、rollout、route enablement 或 frozen contract 語意決策
 
 ### 什麼情況可分派 sub-agent
 
@@ -117,6 +128,7 @@
 - 只有在 implementation、review、verification、shared truth 都完成閉環後，batch 才能標成 `done`
 - 下一批可條件式提前啟動，但前提是 shared truth 不會再改變它的 brief
 - 若下一批已 ready、scope 可保守切出、且沒有 human gate，直接建立下一個 task-brief 並繼續
+- 若下一批尚未 ready，但下一步只是 technical cohort selection，controller 自行選最低風險 bounded cohort，建立 batch / task-brief，然後繼續
 - 只有遇到 Stop Gate，才停下並說明需要哪個人類決策
 
 ## 你的輸出
@@ -141,6 +153,8 @@
 - 不要為了顯示進度而新增大型 dashboard 文件，除非使用者明確要求
 - 不要沒有測試項目清單就啟用 device verification
 - 不要在 ready batch 前只更新 controller-state 後停止
+- 不要在 `Auto-continue: Yes` 時停下，也不要把 technical cohort selection 交給使用者
+- 不要把 commit / clean worktree / ahead commits 當成停止理由
 - 不要只讓使用者從右上角 git 異動推測進度
 - 不要把 strategy、contract、protected zone、rollout 決策交給 sub-agent
 - 不要在 batch 實作中間建議 clear，也不要 clear 後直接繼續寫 code

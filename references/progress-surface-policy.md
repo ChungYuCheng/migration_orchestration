@@ -8,6 +8,8 @@
 
 進度條列是給開發者快速掌握目前做到哪裡的視圖，不是 shared truth。正式狀態仍以 `migration-map.md` 為準。
 
+`Auto-continue: Yes` 不是停止狀態。若回覆中的目前位置顯示 `Human gate: No` 且 `Auto-continue: Yes`，controller 必須繼續執行下一個 concrete action，不應把該回覆作為 final stop。
+
 ## 顯示位置
 
 controller 必須在兩個地方顯示輕量進度：
@@ -30,6 +32,7 @@ controller 必須在兩個地方顯示輕量進度：
 - 準備 compact / resume / 跨 session 交接
 - 停在 human gate
 - 根據 continuation policy 自動續做下一批
+- 執行 technical cohort auto-dispatch
 
 ## 格式
 

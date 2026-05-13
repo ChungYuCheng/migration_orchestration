@@ -29,6 +29,7 @@
 18. 若 context 可能 compact 或工作要交接 -> 更新 controller-state
 19. 執行 continuation policy：
    - 下一批 ready 且無 human gate -> 建立下一個 task brief 並繼續
+   - 下一步是 technical cohort selection 且可保守切出 -> controller 自行選 cohort、建立 batch / task brief 並繼續
    - 有 stop gate -> 回報停止原因與需要的人類決策
 ```
 
@@ -112,6 +113,7 @@
 - AndroidEC UI / navigation / user flow 風險，必要時加入 device verification
 - 若 blocked，先產出選項並分類；technical blocked 自動選 recommended option，human blocked 才等待使用者選擇
 - batch done 後套用 continuation policy，不要只停在 resume target
+- commit / clean worktree 後仍要套用 continuation policy，不要把 commit boundary 當停止點
 
 退出條件：
 
@@ -120,7 +122,8 @@
 - 若要 compact / resume，`controller-state` 已更新
 - 若曾 blocked，resume target 已明確
 - 若需要 device verification，結果已處理為 pass / fail / skipped decision
-- 若下一批 ready 且無 human gate，已建立下一個 task brief 或繼續執行
+- 若下一批 ready 且無 human gate，已建立下一個 task brief 並繼續執行
+- 若下一步是 technical cohort selection，已自行選出下一個 bounded cohort、建立 batch / task-brief 並繼續執行
 
 ## 完成定義（Done Definition）
 
@@ -152,6 +155,8 @@
 - `soft dependency`: controller 可在安全前提下條件式提前啟動
 
 若下一批已標記 `ready`，且符合 continuation policy 的 Auto-Continue Gate，controller 應自動續做，不需要等待使用者說「繼續」。
+
+若下一批尚未標記 `ready`，但下一步只是 technical cohort selection，controller 應依 `continuation-policy.md` 的 Technical Cohort Auto-Dispatch 自行選 cohort 並建立下一批。
 
 不允許提前啟動的情況：
 

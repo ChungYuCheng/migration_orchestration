@@ -71,6 +71,9 @@
 - Do not do yet:
 - Read before continuing:
 - Auto-continue eligible: Yes / No
+- Technical cohort auto-dispatch: Yes / No
+- Selected next cohort:
+- Next batch id:
 - Stop gate reason:
 
 ## Clear Handoff
