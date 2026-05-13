@@ -49,6 +49,14 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 9. reviewer 驗證 scope、contract、tests
 10. controller 更新 `migration-map` 後才派下一批
 
+## 使用方式
+
+- 觸發後先讀本檔，再依任務階段只讀必要的 `references/` 檔案
+- 先完成 triage，再決定是否需要 discovery、recon、dispatcher 或多 implementer
+- 預設用單一 `task-brief` 作為 implementer 入口
+- 只有在 task-brief 放不下必要上下文，且 implementer 會因此重讀大量 repo 時，才建立額外 `context-packet`
+- 不要在 contracts / protected zones 未凍結前平行派 implementer
+
 ## 必讀檔案
 
 - 角色與權限：`references/role-boundaries.md`
@@ -83,7 +91,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - 把 discovery / recon 當成固定義務，而不是決策工具
 - 沒做 discovery 就直接切 task
 - dispatcher 在沒有 stable contracts 的情況下派工
-- 把整個 repo 丟給 worker，而不是最小 context packet
+- 把整個 repo 丟給 worker，而不是 bounded task-brief
 - 讓 implementer 自行修改 shared truth
 - 把 migration task 切成零碎 patch，而不是完整 migration slice
 - 沒更新 `migration-map` 就開始下一批

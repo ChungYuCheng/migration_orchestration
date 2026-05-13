@@ -12,7 +12,7 @@ Controller / Master Agent
   |<---- Recon Report
   |
   |----> Dispatcher / Task Planner
-  |<---- Dispatch Plan + Task Briefs + Context Packets
+  |<---- Task Briefs (+ optional Dispatch Plan / Context Packets)
   |
   |----> Implementer Agent
   |<---- Implementation Report
@@ -35,7 +35,7 @@ Controller / Master Agent
 - 決定是否需要 upfront discovery
 - 定義 protected zones
 - 決定哪些任務先 recon
-- 切 task brief 與 context packet
+- 切 task brief，必要時才補 context packet
 - 判斷哪些批次可以平行
 - 整合 recon、implementation、review 結果
 
@@ -44,7 +44,7 @@ Controller / Master Agent
 - `templates` 複製出來的工作文件
 - `migration-map`
 - task briefs
-- context packets
+- optional context packets
 
 禁止：
 
@@ -63,15 +63,15 @@ Controller / Master Agent
 
 - 根據 discovery / recon 結果切 migration batches
 - 產出 `task-briefs/*.md`
-- 產出 `context-packet`
+- 必要時才產出額外 `context-packet`
 - 標示 dependencies、verification、protected zone constraints
 - 判斷 task 是否足夠 bounded 以供 implementer 執行
 
 可修改：
 
 - 由 controller 授權的 task briefs
-- 由 controller 授權的 context packets
-- `Dispatch Plan`
+- 由 controller 授權的 optional context packets
+- optional `Dispatch Plan`
 
 禁止：
 
@@ -141,7 +141,7 @@ Controller / Master Agent
 必須遵守：
 
 - `task-brief`
-- `context-packet`
+- `context-packet`（只有 controller 明確提供時）
 - `contracts`
 
 可回報狀態：
@@ -197,6 +197,7 @@ Controller / Master Agent
 ### `context-packet.md`
 
 - 提供 worker 最小必要上下文
+- 預設不使用；優先把必要上下文收斂進 `task-brief`
 - 由 controller 或 dispatcher 在 controller 授權下建立與更新
 
 ### `task-briefs/*.md`

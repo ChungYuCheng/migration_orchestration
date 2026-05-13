@@ -31,12 +31,13 @@
 症狀：
 
 - implementer 需要重讀大量 repo 背景
-- 任務沒有最小 context packet
+- `task-brief` 沒有提供足夠的操作導向上下文
 
 正確行為：
 
-- controller 重新整理 `context-packet`
-- 只提供 global brief、local brief、relevant excerpts
+- controller 先補強 `task-brief`
+- 只有 task-brief 仍無法承載必要上下文時，才建立額外 `context-packet`
+- supporting context 只保留 local brief、必要契約段落、relevant excerpts
 
 ## 情境 4：migration map 已過期
 

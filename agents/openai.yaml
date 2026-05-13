@@ -1,0 +1,4 @@
+interface:
+  display_name: "Migration Orchestration"
+  short_description: "Coordinate complex staged refactors"
+  default_prompt: "Use $migration-orchestration to plan and coordinate a complex staged refactor."

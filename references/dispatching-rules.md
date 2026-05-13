@@ -24,9 +24,9 @@ dispatcher 不創造策略，而是把 controller 已確認的策略轉成：
 
 ## 輸出
 
-- `Dispatch Plan`
 - `task-briefs/*.md`
 - 只有必要時才附加 `Relevant Excerpts` 或 supporting reference
+- `Dispatch Plan` 預設不落地；只有批次切分複雜、需要交接，或 controller 要求保留 reasoning 時才產出
 
 ## 切分規則
 

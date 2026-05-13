@@ -43,7 +43,6 @@ Discovery 的目標不是解決問題，而是把「不知道什麼」變成「�
 
 - triage 結論
 - discovery 摘要（預設給 controller，不必落地）
-- triage 結論
 - 初版 caller cohorts
 - 初版 protected zone 候選
 - 初版 verification map
