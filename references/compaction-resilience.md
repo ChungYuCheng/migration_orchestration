@@ -23,6 +23,7 @@ Compaction gate 的最低輸出：
 - `migration-map.md` 更新到最新 batch 狀態
 - 當前 `task-brief` 能獨立支撐 implementer 執行
 - 若下一步仍依賴尚未完成的推理，建立或更新 `controller-state.md`
+- `controller-state.md` 頂部的進度條列與目前位置已更新
 
 ## Resume Gate
 

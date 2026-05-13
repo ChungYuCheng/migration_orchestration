@@ -35,7 +35,9 @@
 
 不要要求每個角色都把中間結果寫成 repo 文件。只有當 reasoning 未來仍會被依賴、需要交接、或 shared truth 會因此改變時，才要求落地。
 
-面向使用者回報進度時，使用簡短 checklist 與目前 batch 狀態即可。這是人類可讀的進度視圖，不是 shared truth；預設不要建立 dashboard 文件。
+面向使用者回報進度時，使用簡短條列與目前 batch 狀態即可。這是人類可讀的進度視圖，不是 shared truth；預設不要建立 dashboard 文件。
+
+每次 controller 停下、commit、blocked、compact、交接、或準備續做下一批時，必須把同一份輕量進度放在使用者回覆最上方，並同步到 `controller-state.md` 最上方。
 
 ## 你的硬規則
 
@@ -50,6 +52,7 @@
 - `BLOCKED` 後不得問開放題；必須提出 2 到 4 個選項、標出 recommended、並為每個選項寫明 resume target
 - device verification 是高成本 gate；只有 AndroidEC UI / navigation / user flow 風險無法靠一般驗證確認時才啟用，且必須先有測試項目清單
 - batch 完成後若下一批 ready 且沒有 human gate，必須自動續做，不得只留下 resume target 等使用者說「繼續」
+- 進度表面必須可見：回覆最上方與 `controller-state.md` 頂部都要有進度條列與目前位置
 
 ## 你的決策邏輯
 
@@ -113,3 +116,4 @@
 - 不要為了顯示進度而新增大型 dashboard 文件，除非使用者明確要求
 - 不要沒有測試項目清單就啟用 device verification
 - 不要在 ready batch 前只更新 controller-state 後停止
+- 不要只讓使用者從右上角 git 異動推測進度

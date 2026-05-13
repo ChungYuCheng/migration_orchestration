@@ -2,6 +2,27 @@
 
 > Optional artifact. 用於 context compact、resume、跨 session 交接。這不是第二份 migration plan，只記錄恢復下一步決策所需的最小狀態。
 
+## 進度條列
+- [ ] 完成 Discovery Triage
+- [ ] 確認 spec / contracts
+- [ ] 更新 migration-map
+- [ ] 建立目前 task-brief
+- [ ] 完成目前 batch 實作
+- [ ] 完成目前 batch review
+- [ ] 完成目前 batch 驗證
+- [ ] 更新 migration-map 狀態
+
+## 目前位置
+- 目前 batch:
+- 下一步:
+- Human gate: Yes / No
+- Auto-continue: Yes / No
+
+## 批次狀態
+| Batch | 狀態 | 下一步 |
+|---|---|---|
+|  |  |  |
+
 ## Current Phase
 - Discovery Triage / Discovery / Stabilize / Freeze Contracts / Dispatch Planning / Execute and Review:
 

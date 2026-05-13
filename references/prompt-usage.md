@@ -84,6 +84,7 @@ controller 可以在使用者回覆中顯示簡短「進度條列」與「批次
 - 進度條列不是 shared truth
 - 不取代 `migration-map.md`
 - 只有使用者要求保存、context 可能 compact、或跨 session 時，才把必要進度摘要寫入 `controller-state.md`
+- 若 controller 停下、commit、blocked、compact、交接或續做下一批，必須同時更新回覆最上方與 `controller-state.md` 頂部
 
 ## 餵 prompt 時應附帶的材料
 
