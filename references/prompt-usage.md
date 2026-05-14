@@ -75,7 +75,7 @@
 
 ## 自動續做
 
-controller 完成一個 batch 後，應根據 `continuation-policy.md` 判斷是否能自動續做。若下一批 ready、沒有 human gate、scope 可保守切出，應直接建立下一個 `task-brief` 並繼續，不要只更新 `controller-state.md` 後停止。
+controller 完成一個 batch 後，應根據 `continuation-policy.md` 判斷是否能自動續做。若下一批 ready、沒有 human gate、scope 可保守切出，應直接建立下一個 `task-brief` 並繼續，不要只更新 `controller-state.md` 後停止。若下一步只是 technical direction / bridge sequencing / scope selection，且 `migration-inventory.md` 可排序，controller 應自行選方向並建立 bounded recon / scope brief / narrow implementation。
 
 ## 輕量進度顯示
 

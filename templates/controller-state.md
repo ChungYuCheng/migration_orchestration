@@ -74,8 +74,10 @@
 - Read before continuing:
 - Auto-continue eligible: Yes / No
 - Technical cohort auto-dispatch: Yes / No
+- Technical direction auto-selection: Yes / No
 - Technical recon auto-continue: Yes / No
 - Selected next cohort:
+- Selected technical direction:
 - Recon scope:
 - Next batch id:
 - Stop gate reason:

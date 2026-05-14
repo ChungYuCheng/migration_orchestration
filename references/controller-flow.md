@@ -30,6 +30,7 @@
 19. 執行 continuation policy：
    - 下一批 ready 且無 human gate -> 建立下一個 task brief 並繼續
    - 下一步是 technical cohort selection 且可保守切出 -> controller 自行選 cohort、建立 batch / task brief 並繼續
+   - 下一步是 technical direction / bridge sequencing / scope selection 且 inventory 可排序 -> controller 自行選方向、建立 bounded recon / scope brief / narrow implementation 並繼續
    - 長鏈 migration 缺少 inventory -> 建立 inventory backfill batch 後繼續
    - 有 stop gate -> 回報停止原因與需要的人類決策
 ```
@@ -131,6 +132,7 @@
 - 若需要 device verification，結果已處理為 pass / fail / skipped decision
 - 若下一批 ready 且無 human gate，已建立下一個 task brief 並繼續執行
 - 若下一步是 technical cohort selection，已自行選出下一個 bounded cohort、建立 batch / task-brief 並繼續執行
+- 若下一步是 technical direction / bridge sequencing / scope selection，已依 inventory 選出下一個方向，建立 bounded recon / scope brief / narrow implementation 並繼續執行
 - 若下一步是 bounded recon / inventory / slice planning，已執行 recon 或派 recon subAgent，並產出 task-brief / Stop Gate 判斷
 
 ## 完成定義（Done Definition）
@@ -165,6 +167,8 @@
 若下一批已標記 `ready`，且符合 continuation policy 的 Auto-Continue Gate，controller 應自動續做，不需要等待使用者說「繼續」。
 
 若下一批尚未標記 `ready`，但下一步只是 technical cohort selection，controller 應依 `continuation-policy.md` 的 Technical Cohort Auto-Dispatch 自行選 cohort 並建立下一批。
+
+若下一批尚未標記 `ready`，但下一步只是 technical direction / bridge sequencing / scope selection，controller 應依 `continuation-policy.md` 的 Technical Direction Auto-Selection 自行選方向並建立下一批。protected behavior 的標籤本身不是 human gate；先切 bounded recon 或 narrow implementation，只有需要產品語意、rollout、公開 route 或無法 bounded 時才停。
 
 若長鏈 migration 尚未建立 `migration-inventory.md`，controller 應先用既有 artifacts 建立 inventory backfill batch，再依 inventory selection order 選下一批。
 

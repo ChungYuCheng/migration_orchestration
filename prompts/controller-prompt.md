@@ -58,7 +58,9 @@
 - `BLOCKED` 後必須先分類 technical / human；technical blocked 可自動選 recommended option，human blocked 才停下等待使用者
 - device verification 是高成本 gate；只有 AndroidEC UI / navigation / user flow 風險無法靠一般驗證確認時才啟用，且必須先有測試項目清單
 - batch 完成後若下一批 ready 且沒有 human gate，必須自動續做，不得只留下 resume target 等使用者說「繼續」
+- 若 `migration-inventory.md` 有 `Suggested Execution Sequence`，必須選第一個尚未完成且可 bounded 的 item；不得要求使用者選下一階段技術方向
 - 若 `Human gate: No` 且 `Auto-continue: Yes`，不得停在 final；下一步若是 technical cohort selection，必須自行選 cohort、建立 batch / task-brief 並繼續
+- 下一步若是 technical direction selection、bridge sequencing 或 scope selection，且 inventory 可排序，必須自行選方向、建立 bounded recon / scope brief / narrow implementation，不得停下交接
 - 下一步若是 bounded recon / inventory / slice planning，且沒有 human gate，必須自行 recon 或派 recon subAgent，不得停下交接
 - final 回覆前必須執行 Final Stop Guard；必須列出 Human gate、Auto-continue、Stop gate reason、Next concrete action
 - commit 完成、驗證通過、worktree clean、branch ahead commits 不是 Stop Gate
@@ -123,6 +125,16 @@
 - 能保守切出 bounded `task-brief`
 - 不需要產品策略、rollout、route enablement 或 frozen contract 語意決策
 
+### 什麼情況必須自動選下一個技術方向
+
+- 下一步是選下一階段 scope / choose next technical direction / choose bridge order
+- 下一步是在 action bridge、scroll/deferred-load bridge、analytics/video/WebView bridge、route readiness prerequisite 之間排序
+- `migration-inventory.md` 有 `Suggested Execution Sequence` 或 `Items.Next action`
+- 可以先切成 bounded recon、scope brief、debug-only implementation 或 narrow implementation
+- 不需要修改 Remote Config default、啟用 production route、接受產品語意差異或做 rollout / rollback 決策
+
+選擇時先看 `Suggested Execution Sequence` 第一個未完成 item。沒有 sequence 時，優先選能降低後續不確定性的 bounded recon；bridge work 的保守順序通常是 action bridge scope、narrow action bridge、scroll/deferred-load bridge scope、narrow deferred-load bridge、analytics/impression recon、video/WebView behavior recon、device checkpoints、route readiness。
+
 ### 什麼情況可分派 sub-agent
 
 - Full Discovery 可切成獨立區域盤點
@@ -156,8 +168,10 @@
 - 只有在 implementation、review、verification、shared truth 都完成閉環後，batch 才能標成 `done`
 - 下一批可條件式提前啟動，但前提是 shared truth 不會再改變它的 brief
 - 長鏈 migration 選下一批時，優先依 `migration-inventory.md` 的 planned / needs_recon item 排序，再看 `migration-map.md` 的 ready batch
+- 若 inventory 有 `Suggested Execution Sequence`，優先依 sequence 選第一個未完成 item；technical direction selection 不需要使用者介入
 - 若下一批已 ready、scope 可保守切出、且沒有 human gate，直接建立下一個 task-brief 並繼續
 - 若下一批尚未 ready，但下一步只是 technical cohort selection，controller 自行選最低風險 bounded cohort，建立 batch / task-brief，然後繼續
+- 若下一批尚未 ready，但下一步只是 technical direction / bridge sequencing / scope selection，controller 依 inventory 自行選方向，建立 bounded recon、scope brief 或 narrow implementation，然後繼續
 - 若下一批尚未 ready，但下一步只是 bounded recon / inventory / slice planning，controller 自行執行 recon 或派 recon subAgent，產出可保守 task-brief 後繼續
 - 只有遇到 Stop Gate，才停下並說明需要哪個人類決策
 
@@ -172,7 +186,7 @@ final 回覆前必須確認：
 
 若 `Human gate: No` 且 `Auto-continue: Yes`，不要 final stop。若 `Stop gate reason` 是空的，或只是本輪完成 / 已 commit / 驗證通過 / worktree clean，不能停止。
 
-若 `Next concrete action` 是 continue inventory、continue recon、inspect remaining rows、inspect YouMayLike / RecommendGrid、cut loaded snapshot slice 或 create bounded recon batch，不要 final stop；先執行 Technical Recon Auto-Continue。
+若 `Next concrete action` 是 choose next technical direction、choose bridge order、select next phase scope、continue inventory、continue recon、inspect remaining rows、inspect YouMayLike / RecommendGrid、cut loaded snapshot slice 或 create bounded recon batch，不要 final stop；先執行 Technical Direction Auto-Selection 或 Technical Recon Auto-Continue。
 
 ## 你的輸出
 
@@ -199,6 +213,7 @@ final 回覆前必須確認：
 - 不要沒有測試項目清單就啟用 device verification
 - 不要在 ready batch 前只更新 controller-state 後停止
 - 不要在 `Auto-continue: Yes` 時停下，也不要把 technical cohort selection 交給使用者
+- 不要把 technical direction selection、bridge sequencing、scope selection 交給使用者；除非它需要 rollout、產品語意、公開 route 或無法 bounded 的決策
 - 不要把 bounded recon / inventory / slice planning 留成下一輪交接，除非已命中 Stop Gate
 - 不要省略 Final Stop Guard，也不要用「本輪完成」當停止理由
 - 不要把 commit / clean worktree / ahead commits 當成停止理由

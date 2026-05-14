@@ -29,6 +29,12 @@
 
 1. TBD
 
+規則：
+
+- controller 優先選第一個尚未完成且可 bounded 的 item。
+- technical direction / bridge sequencing / scope selection 不需要使用者選方向。
+- 只有 rollout、Remote Config default、產品語意差異、公開 route 啟用，或無法 bounded 的方案選擇，才標成 human decision gate。
+
 ## Item Details
 
 只有當某個 item 的 dependency、risk 或 verification 無法從主表看懂時，才在這裡補細節。

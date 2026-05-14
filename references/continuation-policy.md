@@ -41,12 +41,52 @@
 
 排序規則：
 
-1. `needs_recon` 且可 bounded 的 item
-2. `planned`、低到中風險、dependency 已滿足的 item
-3. `migration-map.md` 已標成 `ready` 的 batch
-4. `controller-state.md` 的 next concrete action
+1. `Suggested Execution Sequence` 中第一個尚未完成且可 bounded 的 item
+2. `Items` 主表中 `Next action` 明確、`Gate` 不是 human decision / route rollout 的 item
+3. `needs_recon` 且可 bounded 的 item
+4. `planned`、低到中風險、dependency 已滿足的 item
+5. `migration-map.md` 已標成 `ready` 的 batch
+6. `controller-state.md` 的 next concrete action
 
 若長鏈 migration 尚未有 `migration-inventory.md`，下一步應是建立 inventory backfill batch。這不是 Stop Gate，也不是重新 Full Discovery；controller 應從既有 `migration-map.md`、`controller-state.md`、recon reports、task briefs 與已完成 commits 補一份短表格，然後繼續選下一批。
+
+## Technical Direction Auto-Selection
+
+若已經沒有剩餘低風險 body snapshot，但 `migration-inventory.md` 仍有 bridge / behavior / route readiness / device checkpoint 項目，controller 不得把「選下一階段 scope」本身當成人類決策。
+
+適用情境：
+
+- select next phase scope
+- choose next technical direction
+- choose bridge order
+- action bridge vs scroll bridge vs analytics / video / WebView bridge
+- classify next protected behavior slice
+- choose next inventory sequence item
+- select next route readiness prerequisite
+
+同時符合下列條件時，controller 必須自行選擇：
+
+- `migration-inventory.md` 有 `Suggested Execution Sequence`，或 `Items` 主表有 `Next action`
+- 下一步可以先切成 bounded recon、scope brief、debug-only implementation、或 narrow implementation
+- 不需要改 Remote Config default、不需要 rollout / rollback 決策
+- 不需要接受產品語意差異
+- 不會立即啟用 production route
+- 可以先定義 device verification items，而不是立即要求使用者判斷
+
+選擇規則：
+
+1. 優先選 sequence 中第一個未完成 item
+2. 若沒有 sequence，優先選能降低後續不確定性的 bounded recon
+3. bridge work 優先順序通常是 action bridge scope、narrow action bridge、scroll/deferred-load bridge scope、narrow deferred-load bridge、analytics/impression recon、video/WebView behavior recon、device checkpoints、route readiness
+4. `Gate` 若是 device checkpoint，先建立測試項目清單與 prerequisite batch；不要直接停下問使用者
+
+只有下列情況才可變成 human gate：
+
+- 需要改 Remote Config default、rollout / rollback 或 release strategy
+- 需要接受明確產品語意差異
+- 無法保守切成 bounded recon 或 narrow implementation
+- 多個方案風險接近，且選擇會改變產品行為、交易流程或公開 route
+- device verification 已有測試項目清單但結果 skipped / failed，且該風險只能靠裝置確認
 
 ## Technical Cohort Auto-Dispatch
 
@@ -64,6 +104,8 @@
 - select next contract bridge / adapter batch
 - select next low-risk display / static row
 - select next bounded cleanup batch
+- choose next inventory sequence item
+- select next phase scope when inventory provides sequence
 
 同時符合下列條件時，controller 必須自行選擇並派工：
 
@@ -162,8 +204,10 @@
 - worktree clean
 - branch ahead base / origin 多個 commits
 - 下一步只是 technical cohort selection
+- 下一步只是 technical direction / bridge sequencing / scope selection，且 inventory 可排序
 - 下一步只是 bounded recon / inventory / slice planning
 - 長鏈 migration 缺少 `migration-inventory.md`，但可由既有 artifacts backfill
+- item 被標成 protected behavior / behavior bridge，但下一步可先做 bounded recon、scope brief 或 narrow implementation
 - 已更新 `controller-state.md` 或 `migration-map.md`
 
 ## Batch Boundary Behavior
@@ -177,7 +221,7 @@
 
 若答案是可以繼續，controller 應繼續。若答案是否，才輸出停止原因與需要的人類決策。
 
-若答案是 `Human gate: No` 且 `Auto-continue: Yes`，controller 必須把「下一步」轉成實際 action。若下一步是 cohort selection，就執行 Technical Cohort Auto-Dispatch；若下一步是 bounded recon / inventory / slice planning，就執行 Technical Recon Auto-Continue。
+若答案是 `Human gate: No` 且 `Auto-continue: Yes`，controller 必須把「下一步」轉成實際 action。若下一步是 technical direction / bridge sequencing / scope selection，就執行 Technical Direction Auto-Selection；若下一步是 cohort selection，就執行 Technical Cohort Auto-Dispatch；若下一步是 bounded recon / inventory / slice planning，就執行 Technical Recon Auto-Continue。
 
 ## Final Stop Guard
 
@@ -195,6 +239,7 @@ final 回覆必須明確列出：
 - 若 `Human gate: No` 且 `Auto-continue: Yes`，禁止 final stop
 - 若 `Stop gate reason` 為空，禁止 final stop
 - 若 `Next concrete action` 是 technical cohort selection，禁止 final stop，改執行 Technical Cohort Auto-Dispatch
+- 若 `Next concrete action` 是 technical direction / bridge sequencing / scope selection，禁止 final stop，改執行 Technical Direction Auto-Selection
 - 若 `Next concrete action` 是 bounded recon / inventory / slice planning，禁止 final stop，改執行 Technical Recon Auto-Continue
 - 若只因本輪已完成、已 commit、驗證通過、worktree clean、或 branch ahead 多個 commits，禁止 final stop
 - 若需要停止，必須說明是哪一個 Stop Gate 成立，以及需要使用者做哪個決策
@@ -208,6 +253,10 @@ final 回覆必須明確列出：
 - select and dispatch next bounded row / contract batch
 - row cohort selection
 - next bounded cleanup batch
+- choose next technical direction
+- choose bridge order
+- select next phase scope
+- choose next inventory sequence item
 
 這些是 controller duty，不是 user decision。
 
@@ -232,6 +281,7 @@ final 回覆必須明確列出：
 - 中風險但可提出明確選項的情況，給 recommended option
 - 技術性 `BLOCKED` 若符合 auto-selection criteria，自動選 recommended option，建立 remediation batch 並繼續
 - 技術性 recon / inventory 若符合 auto-continue criteria，自動執行 bounded recon 或派 recon subAgent
+- 技術方向 / bridge sequencing 若 inventory 可排序，自動選下一項並建立 bounded recon、scope brief 或 narrow implementation
 - 高風險或會改變 shared truth 的情況，等待人類確認
 
 ## Resume Target Rule
