@@ -114,6 +114,7 @@
 - 若 blocked，先產出選項並分類；technical blocked 自動選 recommended option，human blocked 才等待使用者選擇
 - batch done 後套用 continuation policy，不要只停在 resume target
 - commit / clean worktree 後仍要套用 continuation policy，不要把 commit boundary 當停止點
+- 下一步若是 bounded recon / inventory / slice planning，執行 Technical Recon Auto-Continue，不要只留下 recon target
 
 退出條件：
 
@@ -124,6 +125,7 @@
 - 若需要 device verification，結果已處理為 pass / fail / skipped decision
 - 若下一批 ready 且無 human gate，已建立下一個 task brief 並繼續執行
 - 若下一步是 technical cohort selection，已自行選出下一個 bounded cohort、建立 batch / task-brief 並繼續執行
+- 若下一步是 bounded recon / inventory / slice planning，已執行 recon 或派 recon subAgent，並產出 task-brief / Stop Gate 判斷
 
 ## 完成定義（Done Definition）
 

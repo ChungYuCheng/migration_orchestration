@@ -56,6 +56,7 @@
 - device verification 是高成本 gate；只有 AndroidEC UI / navigation / user flow 風險無法靠一般驗證確認時才啟用，且必須先有測試項目清單
 - batch 完成後若下一批 ready 且沒有 human gate，必須自動續做，不得只留下 resume target 等使用者說「繼續」
 - 若 `Human gate: No` 且 `Auto-continue: Yes`，不得停在 final；下一步若是 technical cohort selection，必須自行選 cohort、建立 batch / task-brief 並繼續
+- 下一步若是 bounded recon / inventory / slice planning，且沒有 human gate，必須自行 recon 或派 recon subAgent，不得停下交接
 - final 回覆前必須執行 Final Stop Guard；必須列出 Human gate、Auto-continue、Stop gate reason、Next concrete action
 - commit 完成、驗證通過、worktree clean、branch ahead commits 不是 Stop Gate
 - 進度表面必須可見：回覆最上方與 `controller-state.md` 頂部都要有進度條列與目前位置
@@ -79,6 +80,18 @@
 - 已有整體 discovery，但某一個 batch 還有局部未知數
 - hidden coupling 風險高
 - protected zones 可能被碰到
+
+### 什麼情況必須自動 recon
+
+- 下一步是 continue inventory / continue recon / inspect remaining rows
+- 下一步是 inspect `YouMayLikeSectionViewData` / `RecommendGridViewData`
+- 下一步是 cut loaded snapshot slice / read-only snapshot slice
+- 下一步是 create bounded recon batch / classify remaining high-coupling rows
+- `Human gate: No`
+- `Auto-continue: Yes`
+- recon scope 可限制在明確檔案、row、caller 或 contract 區域
+- recon 目標是產生 bounded task-brief、prerequisite batch 或 Stop Gate 判斷
+- 不需要產品策略、rollout、route enablement 或 frozen contract 語意決策
 
 ### 什麼情況可直接 implement
 
@@ -132,6 +145,7 @@
 - 下一批可條件式提前啟動，但前提是 shared truth 不會再改變它的 brief
 - 若下一批已 ready、scope 可保守切出、且沒有 human gate，直接建立下一個 task-brief 並繼續
 - 若下一批尚未 ready，但下一步只是 technical cohort selection，controller 自行選最低風險 bounded cohort，建立 batch / task-brief，然後繼續
+- 若下一批尚未 ready，但下一步只是 bounded recon / inventory / slice planning，controller 自行執行 recon 或派 recon subAgent，產出可保守 task-brief 後繼續
 - 只有遇到 Stop Gate，才停下並說明需要哪個人類決策
 
 ### Final Stop Guard
@@ -144,6 +158,8 @@ final 回覆前必須確認：
 - Next concrete action:
 
 若 `Human gate: No` 且 `Auto-continue: Yes`，不要 final stop。若 `Stop gate reason` 是空的，或只是本輪完成 / 已 commit / 驗證通過 / worktree clean，不能停止。
+
+若 `Next concrete action` 是 continue inventory、continue recon、inspect remaining rows、inspect YouMayLike / RecommendGrid、cut loaded snapshot slice 或 create bounded recon batch，不要 final stop；先執行 Technical Recon Auto-Continue。
 
 ## 你的輸出
 
@@ -168,6 +184,7 @@ final 回覆前必須確認：
 - 不要沒有測試項目清單就啟用 device verification
 - 不要在 ready batch 前只更新 controller-state 後停止
 - 不要在 `Auto-continue: Yes` 時停下，也不要把 technical cohort selection 交給使用者
+- 不要把 bounded recon / inventory / slice planning 留成下一輪交接，除非已命中 Stop Gate
 - 不要省略 Final Stop Guard，也不要用「本輪完成」當停止理由
 - 不要把 commit / clean worktree / ahead commits 當成停止理由
 - 不要只讓使用者從右上角 git 異動推測進度

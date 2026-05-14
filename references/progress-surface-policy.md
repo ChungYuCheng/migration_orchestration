@@ -33,6 +33,7 @@ controller 必須在兩個地方顯示輕量進度：
 - 停在 human gate
 - 根據 continuation policy 自動續做下一批
 - 執行 technical cohort auto-dispatch
+- 執行 technical recon auto-continue
 
 ## 格式
 

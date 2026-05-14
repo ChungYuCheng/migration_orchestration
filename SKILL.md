@@ -42,6 +42,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - AndroidEC UI / navigation / user flow 風險只有必要時才啟用 device verification，且必須先有測試項目清單
 - 完成一個 batch 後，若下一批 ready 且沒有 human gate，controller 應自動續做，不應停在 resume target
 - 若下一步只是 technical cohort selection / dispatch planning，且 `Human gate: No`、`Auto-continue: Yes`，controller 必須自行選下一個 bounded cohort 並建立 task-brief，不得停下等使用者
+- 若下一步只是 bounded recon / inventory / slice planning，且 `Human gate: No`、`Auto-continue: Yes`，controller 必須自行執行 recon 或派 recon subAgent，不得停下交接
 - final 回覆前必須執行 Final Stop Guard；沒有明確 Stop Gate reason 時不得停止
 - 每次 controller 停下或交接時，回覆最上方與 `controller-state.md` 頂部都要顯示輕量進度
 - main agent 永遠是 controller；sub-agent 只處理 bounded 且可隔離的工作，不能更新 shared truth
@@ -61,6 +62,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 10. controller 更新 `migration-map` 後才派下一批
 11. 若下一批 ready 且無 human gate，直接建立下一個 task-brief 並繼續
 12. 若下一步是 technical cohort selection，controller 自行選最低風險 bounded cohort，建立 batch / task-brief 後繼續
+13. 若下一步是 bounded recon / inventory / slice planning，controller 自行建立 recon task、執行盤點、切出可保守 task-brief 後繼續
 
 ## 使用方式
 
@@ -168,6 +170,7 @@ controller 在中大型 migration 的使用者回覆中，應維持簡短進度�
 - 沒有測試項目清單就啟用 device verification，或讓驗證流程自行修復 / commit
 - 下一批已 ready 且沒有 human gate 時，只留下 resume target 就停止
 - `Auto-continue: Yes` 時仍輸出 final 停止回覆，或把 technical cohort selection 當成使用者決策
+- 把 bounded recon / inventory / loaded snapshot slice planning 當成停止點，而不是自行執行或派 recon subAgent
 - final 回覆沒有列出 `Human gate`、`Auto-continue`、`Stop gate reason`，或用「本輪完成」當作停止理由
 - commit 完成、worktree clean、ahead commits 增加都不是停止理由；只有 Stop Gate 才能停止
 - 只更新 git / 對話產出，沒有在回覆與 `controller-state.md` 顯示目前進度

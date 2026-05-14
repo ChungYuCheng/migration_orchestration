@@ -81,6 +81,50 @@
 - 需要改變使用者可見行為或交易流程
 - controller 無法說清楚 next concrete action
 
+## Technical Recon Auto-Continue
+
+若下一步是 bounded recon、inventory 或 slice planning，controller 不得把這當成 human gate。高耦合或局部未知數通常代表要先 recon，不代表要停下等使用者。
+
+適用情境：
+
+- continue inventory
+- continue recon
+- inspect remaining rows
+- inspect remaining high-coupling rows
+- classify remaining high-coupling rows
+- inspect `YouMayLikeSectionViewData`
+- inspect `RecommendGridViewData`
+- cut loaded snapshot slice
+- cut read-only snapshot slice
+- create bounded recon batch
+- create loaded snapshot task brief
+
+同時符合下列條件時，controller 必須自行推進：
+
+- `Human gate: No`
+- `Auto-continue: Yes`
+- recon scope 可限制在明確檔案、row、caller 或 contract 區域
+- recon 目標是產生 bounded task-brief、prerequisite batch 或 Stop Gate 判斷
+- 不需要產品策略、rollout、route enablement 或 frozen contract 語意決策
+- 不需要先碰 protected zone
+
+符合時，controller 應依序：
+
+1. 建立 bounded recon task 或直接執行 bounded recon
+2. 盤點 read-only / loaded snapshot 可行性
+3. 標出 protected zones、hidden coupling、verification path
+4. 若可保守切出，建立下一個 batch id 與 `task-brief`
+5. 更新 `migration-map.md` 與 `controller-state.md`
+6. 直接進入 implement / review / verify
+
+只有下列情況才停止：
+
+- recon 發現需要產品策略、曝光、排序、paging lifecycle、交易流程或 rollout 決策
+- recon 需要修改 protected zone 才能繼續
+- recon 無法保守切出 bounded task-brief
+- 候選方案風險接近且會改變使用者可見行為
+- controller 無法說清楚 recon scope、expected output 或 verification path
+
 ## Stop Gate
 
 遇到下列任一情況，controller 必須停下並請人類決策：
@@ -103,6 +147,7 @@
 - worktree clean
 - branch ahead base / origin 多個 commits
 - 下一步只是 technical cohort selection
+- 下一步只是 bounded recon / inventory / slice planning
 - 已更新 `controller-state.md` 或 `migration-map.md`
 
 ## Batch Boundary Behavior
@@ -116,7 +161,7 @@
 
 若答案是可以繼續，controller 應繼續。若答案是否，才輸出停止原因與需要的人類決策。
 
-若答案是 `Human gate: No` 且 `Auto-continue: Yes`，controller 必須把「下一步」轉成實際 action。若下一步是 cohort selection，就執行 Technical Cohort Auto-Dispatch。
+若答案是 `Human gate: No` 且 `Auto-continue: Yes`，controller 必須把「下一步」轉成實際 action。若下一步是 cohort selection，就執行 Technical Cohort Auto-Dispatch；若下一步是 bounded recon / inventory / slice planning，就執行 Technical Recon Auto-Continue。
 
 ## Final Stop Guard
 
@@ -134,6 +179,7 @@ final 回覆必須明確列出：
 - 若 `Human gate: No` 且 `Auto-continue: Yes`，禁止 final stop
 - 若 `Stop gate reason` 為空，禁止 final stop
 - 若 `Next concrete action` 是 technical cohort selection，禁止 final stop，改執行 Technical Cohort Auto-Dispatch
+- 若 `Next concrete action` 是 bounded recon / inventory / slice planning，禁止 final stop，改執行 Technical Recon Auto-Continue
 - 若只因本輪已完成、已 commit、驗證通過、worktree clean、或 branch ahead 多個 commits，禁止 final stop
 - 若需要停止，必須說明是哪一個 Stop Gate 成立，以及需要使用者做哪個決策
 
@@ -149,6 +195,19 @@ final 回覆必須明確列出：
 
 這些是 controller duty，不是 user decision。
 
+下列 `Next concrete action` 一律視為 bounded recon / inventory / slice planning：
+
+- continue inventory
+- continue recon
+- inspect remaining rows
+- inspect `YouMayLikeSectionViewData`
+- inspect `RecommendGridViewData`
+- cut loaded snapshot slice
+- create bounded recon batch
+- classify remaining high-coupling rows
+
+這些是 controller duty；只有 recon 結果碰到 Stop Gate 條件時才停。
+
 ## Safe Default
 
 預設 autonomy 是 `standard`：
@@ -156,6 +215,7 @@ final 回覆必須明確列出：
 - 低風險、bounded、可回復的下一批，自動續做
 - 中風險但可提出明確選項的情況，給 recommended option
 - 技術性 `BLOCKED` 若符合 auto-selection criteria，自動選 recommended option，建立 remediation batch 並繼續
+- 技術性 recon / inventory 若符合 auto-continue criteria，自動執行 bounded recon 或派 recon subAgent
 - 高風險或會改變 shared truth 的情況，等待人類確認
 
 ## Resume Target Rule
@@ -166,4 +226,4 @@ final 回覆必須明確列出：
 
 ## Commit Boundary Rule
 
-commit、驗證通過、worktree clean 只是 batch boundary，不是停止理由。完成 commit 後，controller 仍必須套用 Auto-Continue Gate 或 Technical Cohort Auto-Dispatch。只有 Stop Gate 成立時，才能停止並要求人類決策。
+commit、驗證通過、worktree clean 只是 batch boundary，不是停止理由。完成 commit 後，controller 仍必須套用 Auto-Continue Gate、Technical Cohort Auto-Dispatch 或 Technical Recon Auto-Continue。只有 Stop Gate 成立時，才能停止並要求人類決策。
