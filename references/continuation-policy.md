@@ -31,7 +31,7 @@
 1. 優先從 `migration-inventory.md` 選出下一個可行 item；若不存在，再從 `migration-map.md` 選出下一個 ready batch
 2. 建立或更新該 batch 的 `task-brief`
 3. 更新 `migration-map.md` 與必要的 `migration-inventory.md` 狀態
-4. 更新輕量進度條列
+4. 依 `migration-inventory.md` top-level items 更新輕量進度條列；只更新 item 狀態，不追加 batch 歷史
 5. 若工作跨 session 或可能 compact，更新 `controller-state.md`
 6. 直接進入 implement / review / verify 流程
 

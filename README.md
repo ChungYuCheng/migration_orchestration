@@ -13,7 +13,7 @@
 - 多次 compact 後可用 Clear Handoff Gate 受控切到新 session，避免舊上下文污染決策
 - 在 `BLOCKED` 後用有限選項與 resume target 回到原 migration plan
 - 技術性 `BLOCKED` 可由 controller 自動選 recommended option 並建立 remediation batch
-- 對開發者只顯示輕量進度條列，不預設建立 dashboard 文件
+- 對開發者只顯示由 `migration-inventory.md` 投影出的固定任務進度條列，不預設建立 dashboard 文件
 - AndroidEC UI / navigation / user flow 風險才啟用 device verification
 - 下一批 ready 且沒有 human gate 時自動續做，不停在 resume target
 - technical cohort selection 由 controller 自動挑選並派工，不作為停止點

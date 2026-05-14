@@ -6,7 +6,9 @@
 
 > controller 每次停下來時，都必須讓進度可見。
 
-進度條列是給開發者快速掌握目前做到哪裡的視圖，不是 shared truth。正式狀態仍以 `migration-map.md` 為準。
+進度條列是給開發者快速掌握目前做到哪裡的視圖，不是另一份 shared truth。它必須從 `migration-inventory.md` 的 top-level `Items` 投影產生；批次歷史與 GD-Bxxx 細節仍以 `migration-map.md` 為準。
+
+進度條列不是「每完成一個 batch 就 append 一行」。它是一份固定的完整任務 checklist：只有當 inventory 出現真正新的 top-level item 時才新增行，平常只更新既有 item 的狀態。
 
 `Auto-continue: Yes` 不是停止狀態。若回覆中的目前位置顯示 `Human gate: No` 且 `Auto-continue: Yes`，controller 必須繼續執行下一個 concrete action，不應把該回覆作為 final stop。若目前位置只是選下一階段技術方向、bridge sequencing 或 scope selection，且 inventory 可排序，應顯示 controller 已選的下一項，而不是停下要求使用者選方向。
 
@@ -24,6 +26,7 @@ controller 必須在兩個地方顯示輕量進度：
 遇到下列時機，controller 必須更新進度表面：
 
 - 完成 Discovery Triage
+- 建立或更新 `migration-inventory.md`
 - 建立或更新 `spec.md` / `contracts.md` / `migration-map.md`
 - 建立新的 `task-brief`
 - batch implement / review / verify 完成
@@ -42,9 +45,12 @@ controller 必須在兩個地方顯示輕量進度：
 
 ```md
 ## 進度條列
-- [x] GD-B001 route gate
-- [x] GD-B002 discovery
-- [ ] GD-B003 current batch
+- [x] Route/config/body baseline
+- [x] Static/display body rows
+- [-] Body action bridge
+- [?] Analytics/impression bridge
+- [!] Remote Config rollout readiness
+- [ ] Legacy cleanup
 
 ## 目前位置
 - 目前 batch:
@@ -53,6 +59,14 @@ controller 必須在兩個地方顯示輕量進度：
 - Auto-continue: Yes / No
 - Stop gate reason:
 ```
+
+狀態符號：
+
+- `[x]` done
+- `[-]` in_progress
+- `[?]` needs_recon
+- `[!]` blocked / human gate / route gate
+- `[ ]` planned / deferred / cleanup
 
 若需要批次表，只保留三欄：
 
@@ -67,9 +81,10 @@ controller 必須在兩個地方顯示輕量進度：
 
 - 不建立 dashboard 檔案，除非使用者明確要求
 - 不把進度條列當成 shared truth
-- 不用進度條列取代 `migration-map.md`
+- 不用進度條列取代 `migration-inventory.md` 或 `migration-map.md`
+- 不把每個 GD-Bxxx batch append 到進度條列
 - 不在進度條列放完整 reasoning、diff、測試 log
 
 ## 與 Controller State 的關係
 
-`controller-state.md` 仍是 compact / resume 的最小恢復包。進度條列放在最上方，只提供快速掃描；詳細恢復狀態仍放在後面的 current phase、current batch、next concrete action。
+`controller-state.md` 仍是 compact / resume 的最小恢復包。進度條列放在最上方，只提供 inventory top-level task 的快速掃描；詳細恢復狀態仍放在後面的 current phase、current batch、next concrete action。

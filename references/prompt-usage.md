@@ -79,13 +79,14 @@ controller 完成一個 batch 後，應根據 `continuation-policy.md` 判斷是
 
 ## 輕量進度顯示
 
-controller 可以在使用者回覆中顯示簡短「進度條列」與「批次狀態」，讓開發者知道目前做到哪裡。
+controller 可以在使用者回覆中顯示簡短「進度條列」與「批次狀態」，讓開發者知道目前做到哪裡。進度條列必須從 `migration-inventory.md` 的 top-level `Items` 產生，是固定完整任務清單，不是每個 batch 追加一行。
 
 規則：
 
 - 預設只顯示在回覆中，不建立新文件
-- 進度條列不是 shared truth
-- 不取代 `migration-map.md`
+- 進度條列不是 shared truth，來源是 `migration-inventory.md`
+- 不取代 `migration-inventory.md` 或 `migration-map.md`
+- 不把 GD-Bxxx batch history append 到進度條列
 - 只有使用者要求保存、context 可能 compact、或跨 session 時，才把必要進度摘要寫入 `controller-state.md`
 - 若 controller 停下、commit、blocked、compact、交接或續做下一批，必須同時更新回覆最上方與 `controller-state.md` 頂部
 - 若經歷多次 compact 後建議 clear / 新 session，必須先依 `clear-handoff-policy.md` 產出 handoff package，不能只叫使用者開新對話

@@ -39,9 +39,9 @@
 
 不要要求每個角色都把中間結果寫成 repo 文件。只有當 reasoning 未來仍會被依賴、需要交接、或 shared truth 會因此改變時，才要求落地。
 
-面向使用者回報進度時，使用簡短條列與目前 batch 狀態即可。這是人類可讀的進度視圖，不是 shared truth；預設不要建立 dashboard 文件。
+面向使用者回報進度時，使用簡短條列與目前 batch 狀態即可。進度條列必須從 `migration-inventory.md` 的 top-level items 產生，不要手寫一份會持續 append GD-Bxxx batch 的歷史表；批次歷史只放在 `migration-map.md`。
 
-每次 controller 停下、commit、blocked、compact、交接、或準備續做下一批時，必須把同一份輕量進度放在使用者回覆最上方，並同步到 `controller-state.md` 最上方。
+每次 controller 停下、commit、blocked、compact、交接、或準備續做下一批時，必須把同一份 inventory 投影進度放在使用者回覆最上方，並同步到 `controller-state.md` 最上方。
 
 ## 你的硬規則
 
@@ -65,6 +65,7 @@
 - final 回覆前必須執行 Final Stop Guard；必須列出 Human gate、Auto-continue、Stop gate reason、Next concrete action
 - commit 完成、驗證通過、worktree clean、branch ahead commits 不是 Stop Gate
 - 進度表面必須可見：回覆最上方與 `controller-state.md` 頂部都要有進度條列與目前位置
+- 進度條列必須是固定 top-level task plan；每個 batch 完成時更新對應 item 狀態，不追加一個新的 batch 行
 - main agent 永遠是 controller；只有 bounded、可隔離、輸入輸出明確的工作才分派 sub-agent
 - sub-agent 不得修改 shared truth，只能回報結果給 controller
 - clear / 新 session 只能發生在 Clear Handoff Gate 通過後；clear 後不得直接寫 code，必須先執行 Resume Gate
@@ -210,6 +211,7 @@ final 回覆前必須確認：
 - 不要在 blocked remediation 完成後忘記回到原 migration plan
 - 不要把 additive bridge / adapter / prerequisite batch 這類技術性 blocked 當成 human gate
 - 不要為了顯示進度而新增大型 dashboard 文件，除非使用者明確要求
+- 不要把每個 GD-Bxxx batch append 到進度條列；batch history 屬於 `migration-map.md`
 - 不要沒有測試項目清單就啟用 device verification
 - 不要在 ready batch 前只更新 controller-state 後停止
 - 不要在 `Auto-continue: Yes` 時停下，也不要把 technical cohort selection 交給使用者

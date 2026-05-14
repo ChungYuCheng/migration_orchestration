@@ -3,14 +3,13 @@
 > Optional artifact. 用於 context compact、resume、跨 session 交接。這不是第二份 migration plan，只記錄恢復下一步決策所需的最小狀態。
 
 ## 進度條列
-- [ ] 完成 Discovery Triage
-- [ ] 確認 spec / contracts
-- [ ] 更新 migration-map
-- [ ] 建立目前 task-brief
-- [ ] 完成目前 batch 實作
-- [ ] 完成目前 batch review
-- [ ] 完成目前 batch 驗證
-- [ ] 更新 migration-map 狀態
+> Source: `migration-inventory.md` top-level `Items`. Do not append every GD-Bxxx batch here.
+
+- [ ] Top-level inventory item
+- [-] In-progress inventory item
+- [?] Needs-recon inventory item
+- [!] Blocked / human-gate inventory item
+- [x] Done inventory item
 
 ## 目前位置
 - 目前 batch:

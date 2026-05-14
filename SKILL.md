@@ -39,7 +39,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - 中大型 / 長鏈 migration 必須維護輕量 `migration-inventory.md`，用來掌握全局剩餘項目、狀態、下一步與關卡；風險、依賴、驗證細節只在必要時放入 details
 - `BLOCKED` 後 controller 必須提供有限選項與 resume target，不得用開放題中斷原計畫
 - 技術性 `BLOCKED` 若符合 auto-selection 條件，controller 應自動選 recommended option、建立 remediation batch 並回到原計畫；只有 human blocked 才停下等使用者
-- 中大型重構的使用者回報應附上輕量進度條列；進度條列不是 shared truth，預設不落地
+- 中大型重構的使用者回報應附上輕量進度條列；進度條列必須是 `migration-inventory.md` top-level items 的投影，不得變成持續 append 的 batch 歷史
 - AndroidEC UI / navigation / user flow 風險只有必要時才啟用 device verification，且必須先有測試項目清單
 - 完成一個 batch 後，若下一批 ready 且沒有 human gate，controller 應自動續做，不應停在 resume target
 - 若 `migration-inventory.md` 有 `Suggested Execution Sequence`，controller 必須選第一個尚未完成且可 bounded 的 item；不得把「選下一階段技術方向」當成 human gate
@@ -47,7 +47,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - 若下一步只是 bridge sequencing / technical direction selection / scope selection，controller 必須自行依 inventory 建立 bounded recon 或 narrow implementation，不得停下等使用者選方向
 - 若下一步只是 bounded recon / inventory / slice planning，且 `Human gate: No`、`Auto-continue: Yes`，controller 必須自行執行 recon 或派 recon subAgent，不得停下交接
 - final 回覆前必須執行 Final Stop Guard；沒有明確 Stop Gate reason 時不得停止
-- 每次 controller 停下或交接時，回覆最上方與 `controller-state.md` 頂部都要顯示輕量進度
+- 每次 controller 停下或交接時，回覆最上方與 `controller-state.md` 頂部都要顯示從 inventory 產生的固定任務進度
 - main agent 永遠是 controller；sub-agent 只處理 bounded 且可隔離的工作，不能更新 shared truth
 - 多次 compact 後若上下文開始污染決策，先補 shared truth，再用 Clear Handoff Gate 判斷是否建議 clear / 新 session
 
@@ -89,20 +89,18 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 
 ## 輕量進度回報
 
-controller 在中大型 migration 的使用者回覆中，應維持簡短進度條列：
+controller 在中大型 migration 的使用者回覆中，應維持簡短進度條列。這不是 batch 歷史，而是 `migration-inventory.md` top-level items 的固定 checklist 投影。
 
 ```md
 ## 進度條列
-- [x] 完成 Discovery Triage
-- [ ] 決定 Full Discovery 或 bounded dispatch
-- [ ] 草擬 / 確認 spec
-- [ ] 草擬 / 凍結 contracts
-- [ ] 建立 migration-map
-- [ ] 撰寫目前 task-brief
-- [ ] 實作目前 batch
-- [ ] review 目前 batch
-- [ ] 驗證目前 batch
-- [ ] 更新 migration-map
+- [x] Route/config/body baseline
+- [x] Static/display body rows
+- [x] Body action bridge
+- [-] Scroll/deferred-load bridge
+- [?] Analytics/impression bridge
+- [ ] Device verification
+- [!] Remote Config rollout readiness
+- [ ] Legacy cleanup
 ```
 
 若需要顯示批次，只保留最小表格：
@@ -116,8 +114,10 @@ controller 在中大型 migration 的使用者回覆中，應維持簡短進度�
 
 規則：
 
-- 進度條列只給人類快速看目前做到哪裡
+- 進度條列只顯示 inventory top-level items，不顯示每個 GD-Bxxx batch
+- 每個 top-level item 固定存在，只更新狀態，不因每個 batch 追加新行
 - 不取代 `spec`、`contracts`、`migration-map`、`task-brief`
+- 批次歷史與 batch-level details 只放在 `migration-map.md`
 - 預設不落地成檔案
 - 只有使用者要求保存、context 可能 compact、或跨 session 時，才把必要進度摘要寫入 `controller-state.md`
 
@@ -175,6 +175,7 @@ controller 在中大型 migration 的使用者回覆中，應維持簡短進度�
 - `BLOCKED` 後只問使用者「怎麼辦」而沒有提供選項與回復路徑
 - 把可自動處理的技術性 `BLOCKED` 當成 human gate，導致流程不必要中斷
 - 把輕量進度條列當成正式 shared truth 或額外 dashboard 維護
+- 把每個 GD-Bxxx batch 持續 append 到進度條列，導致它變成 `migration-map.md` 的重複流水帳
 - 沒有測試項目清單就啟用 device verification，或讓驗證流程自行修復 / commit
 - 下一批已 ready 且沒有 human gate 時，只留下 resume target 就停止
 - `Auto-continue: Yes` 時仍輸出 final 停止回覆，或把 technical cohort selection 當成使用者決策

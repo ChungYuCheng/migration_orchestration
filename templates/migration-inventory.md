@@ -19,6 +19,8 @@
 
 主表保持輕量。它是給人類閱讀的進度表面，也是 controller 選下一個 item 的第一層依據。
 
+`Items` 是完整 top-level task plan。每個 item 應代表一個穩定任務區塊，而不是每個 GD-Bxxx batch。batch 被拆得再細，也只更新對應 item 的 `Status` / `Next action`；batch history 留在 `migration-map.md`。
+
 | Item | Type | Status | Next action | Gate |
 |---|---|---|---|---|
 |  | display / recon / bridge / route / device / cleanup | planned / in_progress / needs_recon / done / deferred / blocked / route_gate / cleanup |  | none / human decision / device checkpoint / route rollout / protected zone |
@@ -82,7 +84,8 @@
 ## Inventory Update Rules
 
 - Update this file when discovery identifies a new cohort.
-- Update this file when a batch changes item status.
+- Update this file when a batch changes a top-level item status.
 - Keep `Items` rows short; move risk, dependency, verification, and long notes to `Item Details` only when needed.
+- Do not append every GD-Bxxx batch as a new `Items` row. Add a new row only when a genuinely new top-level task appears.
 - Prefer `needs_recon` over guessing order when risk is unknown.
 - Do not mark an item `done` unless `migration-map.md` has the completed batch and verification result.
