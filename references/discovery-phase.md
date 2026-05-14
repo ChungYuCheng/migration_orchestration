@@ -57,16 +57,11 @@ Full Discovery 不需要產出完整實作計畫，但中大型 / 長鏈 migrati
 
 Inventory 至少應包含：
 
-- item / cohort 名稱
-- 類型：static display、data formatting、action bridge、recommendation / paging / impression、navigation / route、purchase / checkout、player / media、cleanup
-- risk：low / medium / high
-- dependency：前置 contract、route、資料來源、verification 或 blocker
-- suggested order：early / middle / late / final
-- verification：unit、compile、snapshot、device checkpoint 或 manual decision
-- status：planned、needs_recon、done、deferred、blocked、route_gate、cleanup
-- stop gate trigger：什麼情況才需要人類決策
+- `Items` 主表：Item、Type、Status、Next action、Gate
+- `Suggested Execution Sequence`：只有剩餘工作會跨多個 future batches 時才需要
+- `Item Details`：只在 risk、dependency、verification 或 notes 無法從主表看懂時才補
 
-Inventory 不是詳細 task plan。詳細實作步驟仍放在 `task-brief.md`，批次歷史仍放在 `migration-map.md`。
+Inventory 不是詳細 task plan，也不是長篇風險報告。詳細實作步驟仍放在 `task-brief.md`，批次歷史仍放在 `migration-map.md`，局部風險細節放在 recon report 或 `Item Details`。
 
 ## Discovery 不做什麼
 

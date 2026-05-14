@@ -8,7 +8,7 @@
 - 先用最低成本做 triage，必要時再做 discovery / recon
 - 以 `task-brief` 作為 implementer 的單一工作入口
 - 小型 / 一般 migration 預設只持久化 `spec.md`、`contracts.md`、`migration-map.md`、`task-brief.md`
-- 中大型 / 長鏈 migration 維護 `migration-inventory.md`，掌握全局剩餘項目、風險、順序與驗證 checkpoint
+- 中大型 / 長鏈 migration 維護輕量 `migration-inventory.md`，掌握全局剩餘項目、狀態、下一步與關卡
 - 在 context compact 或跨 session 時用 `controller-state.md` 保存最小恢復狀態
 - 多次 compact 後可用 Clear Handoff Gate 受控切到新 session，避免舊上下文污染決策
 - 在 `BLOCKED` 後用有限選項與 resume target 回到原 migration plan

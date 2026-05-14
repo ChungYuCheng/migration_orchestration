@@ -35,9 +35,17 @@
 
 ## Migration Inventory 建議
 
-| Item / Cohort | Type | Risk | Dependency | Suggested order | Verification | Initial status | Stop gate trigger |
-|---|---|---|---|---|---|---|---|
-|  |  | low / medium / high |  | early / middle / late / final |  | planned / needs_recon / deferred |  |
+| Item | Type | Status | Next action | Gate |
+|---|---|---|---|---|
+|  | display / recon / bridge / route / device / cleanup | planned / needs_recon / deferred |  | none / human decision / device checkpoint / route rollout / protected zone |
+
+### Migration Inventory Details（必要時）
+
+- Item:
+  - Risk:
+  - Dependency:
+  - Suggested order:
+  - Verification:
 
 ## 區域分類
 - Area:

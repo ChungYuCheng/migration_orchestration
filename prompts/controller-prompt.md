@@ -85,7 +85,7 @@
 - 下一步是 continue inventory、inspect remaining rows、technical cohort selection、bounded recon 或 slice planning
 - 現有 artifacts 只記錄已完成批次，沒有列出 planned / needs_recon / deferred / blocked items
 
-補 inventory 時不要重新 Full Discovery。先用既有 `migration-map.md`、`controller-state.md`、recon reports、task briefs 與已完成 commits 建立短表格，標出 item、cohort、type、risk、dependency、suggested order、verification、status、stop gate trigger，然後繼續原本 migration。
+補 inventory 時不要重新 Full Discovery。先用既有 `migration-map.md`、`controller-state.md`、recon reports、task briefs 與已完成 commits 建立短表格。`Items` 主表只保留 Item、Type、Status、Next action、Gate；risk、dependency、verification、長 notes 只在必要時放到 `Item Details`，然後繼續原本 migration。
 
 ### 什麼情況先 recon
 

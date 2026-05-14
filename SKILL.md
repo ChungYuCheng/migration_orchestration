@@ -36,7 +36,7 @@ description: Use when 進行複雜重構或漸進式 migration，且需要多個
 - caller migration 只能在 contracts 凍結後平行化
 - worker 若需要碰 protected zone，必須回報 `BLOCKED`
 - 會影響下一步決策的資訊必須寫入 shared truth 或 controller state，不得只存在聊天上下文
-- 中大型 / 長鏈 migration 必須維護 `migration-inventory.md`，用來掌握全局剩餘項目、風險、順序與驗證 checkpoint
+- 中大型 / 長鏈 migration 必須維護輕量 `migration-inventory.md`，用來掌握全局剩餘項目、狀態、下一步與關卡；風險、依賴、驗證細節只在必要時放入 details
 - `BLOCKED` 後 controller 必須提供有限選項與 resume target，不得用開放題中斷原計畫
 - 技術性 `BLOCKED` 若符合 auto-selection 條件，controller 應自動選 recommended option、建立 remediation batch 並回到原計畫；只有 human blocked 才停下等使用者
 - 中大型重構的使用者回報應附上輕量進度條列；進度條列不是 shared truth，預設不落地
