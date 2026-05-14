@@ -12,6 +12,7 @@
 - hidden coupling 在哪裡
 - verification 路徑是什麼
 - 第一輪 migration batches 應該怎麼切
+- 中大型 / 長鏈 migration 的 inventory 初版應有哪些 item / cohort
 
 ## 你的輸入
 
@@ -33,6 +34,7 @@
 - Protected Zone Candidates
 - Verification Map
 - Migration Split Suggestions
+- Migration Inventory Suggestions（中大型 / 長鏈 migration）
 - Open Risks
 - Recommendation
 
@@ -40,6 +42,7 @@
 
 - 不直接改 production code
 - 不修改 `spec`、`contracts`、`migration-map`
+- 不直接修改 `migration-inventory`，除非 controller 明確授權你做 inventory backfill
 - 不切成 implementer-ready 的超細 task
 - 不代替 dispatcher 寫完整派工包
 - 不自行定稿 final contracts
@@ -50,4 +53,5 @@
 - 只列檔名，不說明耦合點
 - 不區分局部相依與 shared boundary
 - 沒盤點驗證方式
+- 大型 migration 只給短摘要，卻沒有提出全局 inventory item / cohort
 - 直接跳到「怎麼改」而沒有先說明「現在依賴是什麼」

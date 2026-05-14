@@ -15,6 +15,7 @@
 同時符合下列條件時，controller 應自動續做：
 
 - `migration-map.md` 中有下一個 `ready` batch
+- 或 `migration-inventory.md` 中有下一個 `planned` / `needs_recon` item 可保守轉成 bounded batch
 - contracts / protected zones 已凍結
 - 下一批不依賴未確認結果
 - 下一批 write scope 不與未完成工作衝突
@@ -27,11 +28,25 @@
 
 符合條件後，controller 應依序：
 
-1. 選出下一個 ready batch
+1. 優先從 `migration-inventory.md` 選出下一個可行 item；若不存在，再從 `migration-map.md` 選出下一個 ready batch
 2. 建立或更新該 batch 的 `task-brief`
-3. 更新輕量進度條列
-4. 若工作跨 session 或可能 compact，更新 `controller-state.md`
-5. 直接進入 implement / review / verify 流程
+3. 更新 `migration-map.md` 與必要的 `migration-inventory.md` 狀態
+4. 更新輕量進度條列
+5. 若工作跨 session 或可能 compact，更新 `controller-state.md`
+6. 直接進入 implement / review / verify 流程
+
+## Inventory Selection Order
+
+中大型 / 長鏈 migration 選下一批時，controller 應優先依 `migration-inventory.md` 排序，不要只靠聊天脈絡或最近 batch history。
+
+排序規則：
+
+1. `needs_recon` 且可 bounded 的 item
+2. `planned`、低到中風險、dependency 已滿足的 item
+3. `migration-map.md` 已標成 `ready` 的 batch
+4. `controller-state.md` 的 next concrete action
+
+若長鏈 migration 尚未有 `migration-inventory.md`，下一步應是建立 inventory backfill batch。這不是 Stop Gate，也不是重新 Full Discovery；controller 應從既有 `migration-map.md`、`controller-state.md`、recon reports、task briefs 與已完成 commits 補一份短表格，然後繼續選下一批。
 
 ## Technical Cohort Auto-Dispatch
 
@@ -65,10 +80,10 @@
 
 符合時，controller 應依序：
 
-1. 從 `migration-map.md` 選出最低風險 bounded cohort
+1. 從 `migration-inventory.md` 選出最低風險 bounded cohort；若 inventory 缺失，先建立 inventory backfill batch
 2. 建立下一個 batch id
 3. 建立或更新該 batch 的 `task-brief`
-4. 更新 `migration-map.md`
+4. 更新 `migration-map.md` 與必要的 `migration-inventory.md` 狀態
 5. 更新 `controller-state.md` 的進度與目前位置
 6. 直接進入 implement / review / verify
 
@@ -114,7 +129,7 @@
 2. 盤點 read-only / loaded snapshot 可行性
 3. 標出 protected zones、hidden coupling、verification path
 4. 若可保守切出，建立下一個 batch id 與 `task-brief`
-5. 更新 `migration-map.md` 與 `controller-state.md`
+5. 更新 `migration-map.md`、必要的 `migration-inventory.md` 狀態與 `controller-state.md`
 6. 直接進入 implement / review / verify
 
 只有下列情況才停止：
@@ -148,6 +163,7 @@
 - branch ahead base / origin 多個 commits
 - 下一步只是 technical cohort selection
 - 下一步只是 bounded recon / inventory / slice planning
+- 長鏈 migration 缺少 `migration-inventory.md`，但可由既有 artifacts backfill
 - 已更新 `controller-state.md` 或 `migration-map.md`
 
 ## Batch Boundary Behavior

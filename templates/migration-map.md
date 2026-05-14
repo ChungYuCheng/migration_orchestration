@@ -1,5 +1,7 @@
 # Migration 地圖
 
+> `migration-map.md` 記錄批次歷史與狀態。中大型 / 長鏈 migration 的全局 item 清單、剩餘範圍、risk 與 verification checkpoint 應放在 `migration-inventory.md`。
+
 ## 舊路徑 -> 目標路徑對應
 - LegacyThing -> NewThing
 

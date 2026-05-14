@@ -5,10 +5,10 @@
 ## 標準節奏
 
 ```text
-1. 讀取 spec / contracts / migration-map
+1. 讀取 spec / contracts / migration-map，長鏈 migration 也讀取 migration-inventory
 2. 先做 Discovery Triage
 3. 若 triage 顯示複雜度高 -> 派 discovery agent
-4. 更新 shared truth
+4. 更新 shared truth；長鏈 migration 建立或更新 migration-inventory
 5. 交給 dispatcher 產出 batches、task briefs
 6. 選出下一個 migration batch
 7. 判斷：
@@ -25,11 +25,12 @@
    - implementation fix -> 回 implementer
    - dispatch / recon / contract issue -> 升級處理
 16. 若 task blocked -> 執行 blocked resume protocol，先分類 technical / human blocked
-17. 符合 done definition -> 更新 migration-map
+17. 符合 done definition -> 更新 migration-map 與必要的 migration-inventory 狀態
 18. 若 context 可能 compact 或工作要交接 -> 更新 controller-state
 19. 執行 continuation policy：
    - 下一批 ready 且無 human gate -> 建立下一個 task brief 並繼續
    - 下一步是 technical cohort selection 且可保守切出 -> controller 自行選 cohort、建立 batch / task brief 並繼續
+   - 長鏈 migration 缺少 inventory -> 建立 inventory backfill batch 後繼續
    - 有 stop gate -> 回報停止原因與需要的人類決策
 ```
 
@@ -54,12 +55,14 @@
 - 找 shared boundaries
 - 找 hidden coupling
 - 盤點驗證命令與 baseline
+- 建立或更新全局 `migration-inventory.md`
 
 退出條件：
 
 - 主要 dependencies 已知
 - 主要 shared boundaries 已知
 - 可以根據 discovery 結果切 migration batches
+- 可以根據 inventory 看懂剩餘範圍、風險與建議順序
 
 ### Phase 2: Stabilize
 
@@ -87,6 +90,7 @@
 ### Phase 4: Dispatch Planning
 
 - 根據 discovery 或 triage 結果切 batches
+- 中大型 / 長鏈 migration 先參考 `migration-inventory.md` 切 batches
 - 為每個 batch 寫 task brief
 - 只有必要時才附 supporting excerpts 或 reference
 - 標示 dependency、blocked conditions、verification
@@ -115,10 +119,12 @@
 - batch done 後套用 continuation policy，不要只停在 resume target
 - commit / clean worktree 後仍要套用 continuation policy，不要把 commit boundary 當停止點
 - 下一步若是 bounded recon / inventory / slice planning，執行 Technical Recon Auto-Continue，不要只留下 recon target
+- 長鏈 migration 若沒有 `migration-inventory.md`，先建立 inventory backfill batch，不要靠聊天記憶選下一批
 
 退出條件：
 
 - `migration-map` 已更新
+- 長鏈 migration 的 `migration-inventory` 已更新
 - 下批次前沒有 stale shared truth
 - 若要 compact / resume，`controller-state` 已更新
 - 若曾 blocked，resume target 已明確
@@ -159,6 +165,8 @@
 若下一批已標記 `ready`，且符合 continuation policy 的 Auto-Continue Gate，controller 應自動續做，不需要等待使用者說「繼續」。
 
 若下一批尚未標記 `ready`，但下一步只是 technical cohort selection，controller 應依 `continuation-policy.md` 的 Technical Cohort Auto-Dispatch 自行選 cohort 並建立下一批。
+
+若長鏈 migration 尚未建立 `migration-inventory.md`，controller 應先用既有 artifacts 建立 inventory backfill batch，再依 inventory selection order 選下一批。
 
 不允許提前啟動的情況：
 
@@ -235,3 +243,4 @@
 - shared boundary 還在變時就平行派工
 - 用 micro-patches 當 migration task
 - 沒先更新 `migration-map` 就進入下一批
+- 長鏈 migration 沒有 `migration-inventory.md` 卻繼續只靠聊天脈絡選下一批

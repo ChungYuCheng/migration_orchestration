@@ -6,6 +6,7 @@
 - Spec version:
 - Contracts version:
 - Migration map version:
+- Migration inventory version:
 - Discovery / Recon reports used:
 
 ## 批次布局

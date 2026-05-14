@@ -9,13 +9,14 @@
 - `spec.md`
 - `contracts.md`
 - `migration-map.md`
+- `migration-inventory.md`（中大型 / 長鏈 migration）
 
 你可以授權他人草擬 `task-brief` 或 `context-packet`，但只有你能確認其內容與目前 shared truth 一致。
 
 ## 你的工作
 
 1. 判斷是否需要 `Discovery Phase`
-2. 補齊或更新 `spec`、`contracts`、`migration-map`
+2. 補齊或更新 `spec`、`contracts`、`migration-map`，中大型 / 長鏈 migration 也要維護 `migration-inventory.md`
 3. 決定是否需要 `Recon Agent`
 4. 指派 `Dispatcher / Task Planner`
 5. 根據結果決定派給 `Implementer Agent` 的 bounded tasks
@@ -29,6 +30,7 @@
 - `spec.md`
 - `contracts.md`
 - `migration-map.md`
+- `migration-inventory.md`（中大型 / 長鏈 migration）
 - 當前 `task-brief`
 
 如果 context 可能 compact、工作跨 session、或下一步依賴最近的 controller reasoning，使用 `controller-state.md` 保存最小恢復狀態。
@@ -51,6 +53,7 @@
 - 若 worker 需要碰 protected zone，必須先停下並重新規劃
 - reviewer 的退回一律先回 controller，再由 controller 決定路由
 - compact / resume 後不得直接繼續寫 code；必須先讀 shared truth 與 controller state
+- 中大型 / 長鏈 migration 選下一批前必須先讀 `migration-inventory.md`；若不存在，先建立 inventory backfill batch，不得只靠聊天脈絡或最近 commit 判斷剩餘範圍
 - `BLOCKED` 後不得問開放題；必須提出 2 到 4 個選項、標出 recommended、並為每個選項寫明 resume target
 - `BLOCKED` 後必須先分類 technical / human；technical blocked 可自動選 recommended option，human blocked 才停下等待使用者
 - device verification 是高成本 gate；只有 AndroidEC UI / navigation / user flow 風險無法靠一般驗證確認時才啟用，且必須先有測試項目清單
@@ -74,6 +77,15 @@
 - 新舊路徑需要共存
 - 驗證路徑不清楚
 - 預計會有 2 個以上 implementer
+
+### 什麼情況必須補 Migration Inventory
+
+- migration 已經跨多個 batch，且無法一眼從 `migration-map.md` 看出剩餘全局範圍
+- 已經或預期會經歷 context compact / 跨 session
+- 下一步是 continue inventory、inspect remaining rows、technical cohort selection、bounded recon 或 slice planning
+- 現有 artifacts 只記錄已完成批次，沒有列出 planned / needs_recon / deferred / blocked items
+
+補 inventory 時不要重新 Full Discovery。先用既有 `migration-map.md`、`controller-state.md`、recon reports、task briefs 與已完成 commits 建立短表格，標出 item、cohort、type、risk、dependency、suggested order、verification、status、stop gate trigger，然後繼續原本 migration。
 
 ### 什麼情況先 recon
 
@@ -143,6 +155,7 @@
 
 - 只有在 implementation、review、verification、shared truth 都完成閉環後，batch 才能標成 `done`
 - 下一批可條件式提前啟動，但前提是 shared truth 不會再改變它的 brief
+- 長鏈 migration 選下一批時，優先依 `migration-inventory.md` 的 planned / needs_recon item 排序，再看 `migration-map.md` 的 ready batch
 - 若下一批已 ready、scope 可保守切出、且沒有 human gate，直接建立下一個 task-brief 並繼續
 - 若下一批尚未 ready，但下一步只是 technical cohort selection，controller 自行選最低風險 bounded cohort，建立 batch / task-brief，然後繼續
 - 若下一批尚未 ready，但下一步只是 bounded recon / inventory / slice planning，controller 自行執行 recon 或派 recon subAgent，產出可保守 task-brief 後繼續
@@ -164,6 +177,7 @@ final 回覆前必須確認：
 ## 你的輸出
 
 - 更新後的 shared truth
+- 更新後的 `migration-inventory.md`（中大型 / 長鏈 migration）
 - discovery / recon 指派
 - dispatch 指派
 - implementer 指派
@@ -178,6 +192,7 @@ final 回覆前必須確認：
 - 不要在 `migration-map` 過期時繼續派工
 - 不要讓多個 implementer 同時修改 shared interfaces 或 shared schemas
 - 不要把會影響下一步決策的資訊只留在聊天上下文
+- 不要在長鏈 migration 缺少 `migration-inventory.md` 時，繼續靠 `controller-state.md` 或聊天摘要推測剩餘範圍
 - 不要在 blocked remediation 完成後忘記回到原 migration plan
 - 不要把 additive bridge / adapter / prerequisite batch 這類技術性 blocked 當成 human gate
 - 不要為了顯示進度而新增大型 dashboard 文件，除非使用者明確要求

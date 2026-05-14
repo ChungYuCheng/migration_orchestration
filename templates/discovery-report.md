@@ -33,6 +33,12 @@
 - Batch B:
 - Batch C:
 
+## Migration Inventory 建議
+
+| Item / Cohort | Type | Risk | Dependency | Suggested order | Verification | Initial status | Stop gate trigger |
+|---|---|---|---|---|---|---|---|
+|  |  | low / medium / high |  | early / middle / late / final |  | planned / needs_recon / deferred |  |
+
 ## 區域分類
 - Area:
   - Risk:

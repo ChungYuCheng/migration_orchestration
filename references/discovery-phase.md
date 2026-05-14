@@ -27,6 +27,8 @@ Discovery 的目標不是解決問題，而是把「不知道什麼」變成「�
 - 哪些 hidden coupling 可能造成 protected zone 風險
 - 驗證路徑和 baseline 是什麼
 - 第一輪 migration batches 應該怎麼切
+- migration inventory 初版應包含哪些 item / cohort
+- 主要 cohort 的 risk、dependency、suggested order、verification checkpoint 是什麼
 
 ## 何時必須做
 
@@ -46,7 +48,25 @@ Discovery 的目標不是解決問題，而是把「不知道什麼」變成「�
 - 初版 caller cohorts
 - 初版 protected zone 候選
 - 初版 verification map
+- 初版 `migration-inventory.md`（中大型 / 長鏈 migration 必須落地）
 - 可供 dispatcher 使用的切分線索
+
+## Migration Inventory 要求
+
+Full Discovery 不需要產出完整實作計畫，但中大型 / 長鏈 migration 必須建立或更新 `migration-inventory.md`。它是一份全局剩餘清單，讓 controller 在多次 compact 或跨 session 後仍能看懂重構脈絡。
+
+Inventory 至少應包含：
+
+- item / cohort 名稱
+- 類型：static display、data formatting、action bridge、recommendation / paging / impression、navigation / route、purchase / checkout、player / media、cleanup
+- risk：low / medium / high
+- dependency：前置 contract、route、資料來源、verification 或 blocker
+- suggested order：early / middle / late / final
+- verification：unit、compile、snapshot、device checkpoint 或 manual decision
+- status：planned、needs_recon、done、deferred、blocked、route_gate、cleanup
+- stop gate trigger：什麼情況才需要人類決策
+
+Inventory 不是詳細 task plan。詳細實作步驟仍放在 `task-brief.md`，批次歷史仍放在 `migration-map.md`。
 
 ## Discovery 不做什麼
 
@@ -56,6 +76,7 @@ Discovery 的目標不是解決問題，而是把「不知道什麼」變成「�
 - 不代替 dispatcher 做完整 task packet
 - 不追求把整個系統完全研究完
 - 不應產出與 recon 高度重複的局部 task 細節
+- 不把 inventory 寫成長篇報告；用短表格讓 controller 能排序與續做
 
 ## 最低完成標準
 
@@ -64,6 +85,7 @@ Discovery 的目標不是解決問題，而是把「不知道什麼」變成「�
 - 已知 shared boundary 熱點
 - 已知基本驗證命令
 - controller 可以根據結果凍結第一版 contracts
+- 若是中大型 / 長鏈 migration，已有初版 `migration-inventory.md`
 
 ## 何時應停止 discovery
 

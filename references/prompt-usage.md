@@ -21,6 +21,7 @@
   - `spec.md`
   - `contracts.md`
   - `migration-map.md`
+  - `migration-inventory.md`（中大型 / 長鏈 migration）
   - 當前 `task-brief`
   - `controller-state.md`（只有 compact / resume / 交接需要時）
 
@@ -57,6 +58,7 @@
 - `spec.md`
 - `contracts.md`
 - `migration-map.md`
+- `migration-inventory.md`（中大型 / 長鏈 migration）
 - 當前使用中的 `task-brief`
 
 以下內容預設不落地，只在必要時才寫成檔案：
@@ -95,6 +97,7 @@ controller 可以在使用者回覆中顯示簡短「進度條列」與「批次
 - `spec.md`
 - `contracts.md`
 - `migration-map.md`
+- `migration-inventory.md`（中大型 / 長鏈 migration，如果存在）
 - 目前重構目標
 - `controller-state.md`（如果是 compact / resume 後接續工作）
 - `clear-handoff-policy.md`（如果是 clear / 新 session 後接續工作）
@@ -111,6 +114,7 @@ controller 可以在使用者回覆中顯示簡短「進度條列」與「批次
 - `spec.md`
 - `contracts.md`
 - `migration-map.md`
+- `migration-inventory.md`（中大型 / 長鏈 migration）
 - `Discovery Report`
 - `Recon Report`（如果有）
 

@@ -7,7 +7,8 @@
 - 由單一 `controller` 維護 shared truth
 - 先用最低成本做 triage，必要時再做 discovery / recon
 - 以 `task-brief` 作為 implementer 的單一工作入口
-- 預設只持久化 `spec.md`、`contracts.md`、`migration-map.md`、`task-brief.md`
+- 小型 / 一般 migration 預設只持久化 `spec.md`、`contracts.md`、`migration-map.md`、`task-brief.md`
+- 中大型 / 長鏈 migration 維護 `migration-inventory.md`，掌握全局剩餘項目、風險、順序與驗證 checkpoint
 - 在 context compact 或跨 session 時用 `controller-state.md` 保存最小恢復狀態
 - 多次 compact 後可用 Clear Handoff Gate 受控切到新 session，避免舊上下文污染決策
 - 在 `BLOCKED` 後用有限選項與 resume target 回到原 migration plan
@@ -25,7 +26,7 @@
 - `SKILL.md`: 主 skill 定義
 - `references/`: 流程規則、角色邊界、failure / escalation 等參考文件
 - `prompts/`: controller、discovery、dispatcher、implementer、reviewer prompts
-- `templates/`: `spec`、`contracts`、`migration-map`、`task-brief`、`controller-state`、`blocked-escalation` 與可選報告模板
+- `templates/`: `spec`、`contracts`、`migration-map`、`migration-inventory`、`task-brief`、`controller-state`、`blocked-escalation` 與可選報告模板
 
 ## 使用方式
 

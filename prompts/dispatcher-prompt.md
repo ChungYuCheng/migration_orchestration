@@ -7,6 +7,7 @@
 - `spec.md`
 - `contracts.md`
 - `migration-map.md`
+- `migration-inventory.md`（中大型 / 長鏈 migration）
 - `Discovery Report`
 - `Recon Report`（如果有）
 
@@ -73,6 +74,7 @@ implementer 讀完 brief 後，應該不需要重新探索大半個系統。
 - 不修改 `spec`
 - 不修改 `contracts`
 - 不修改 `migration-map`
+- 不修改 `migration-inventory`
 - 不放寬 protected zones
 - 不重新設計 migration strategy
 - 不用模糊 wording 派工
@@ -82,6 +84,7 @@ implementer 讀完 brief 後，應該不需要重新探索大半個系統。
 
 - contracts 尚未凍結
 - protected zones 未明確
+- 中大型 / 長鏈 migration 缺少 inventory，且 controller 尚未授權 inventory backfill
 - 驗證路徑不清楚
 - write scope 與其他 task 高度重疊
 - task 仍需要 implementer 重新理解大半個系統

@@ -38,6 +38,7 @@
 - Spec:
 - Contracts:
 - Migration map:
+- Migration inventory:
 - Task brief:
 
 ## Frozen Decisions
@@ -80,6 +81,16 @@
 - Stop gate reason:
 - Final stop guard passed: Yes / No
 
+## Inventory State
+- Inventory file:
+- Last updated batch:
+- Remaining planned:
+- Remaining needs_recon:
+- Remaining deferred:
+- Remaining blocked:
+- Next inventory item:
+- Next verification checkpoint:
+
 ## Clear Handoff
 - Clear handoff recommended: Yes / No
 - Gate status: not_checked / passed / blocked
@@ -99,5 +110,6 @@
 - [ ] Read `spec.md`
 - [ ] Read `contracts.md`
 - [ ] Read `migration-map.md`
+- [ ] Read `migration-inventory.md` if this is a medium / large / long-chain migration
 - [ ] Read current `task-brief`
 - [ ] Confirm this state still matches the repository
